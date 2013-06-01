@@ -18,5 +18,7 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-    DESTINATION share/gnuradio/grc/blocks
+	ccs_packet_dropper.xml
+	ccs_wireshark_connector.xml
+	DESTINATION share/gnuradio/grc/blocks
 )

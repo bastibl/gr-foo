@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<block>
+  <name>Packet Dropper</name>
+  <key>ccs_packet_dropper</key>
+  <category>CCS</category>
+  <import>import ccs</import>
+  <make>ccs.packet_dropper($drop_rate, $seed)</make>
+  
+  <param>
+    <name>Packet drop rate</name>
+    <key>drop_rate</key>
+    <type>real</type>
+  </param>
+  
+  <param>
+    <name>Random seed</name>
+    <key>seed</key>
+    <type>int</type>
+  </param>
+  
+  <sink>
+    <name>in</name>
+    <type>message</type>
+  </sink>
+  
+  <source>
+    <name>out</name>
+    <type>message</type>
+  </source>
+</block> 

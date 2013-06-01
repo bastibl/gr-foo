@@ -21,6 +21,8 @@
 # Install public header files
 ########################################################################
 install(FILES
-    api.h
-    DESTINATION include/ccs
+	api.h
+	packet_dropper.h
+	wireshark_connector.h
+	DESTINATION include/ccs
 )

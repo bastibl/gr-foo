@@ -26,6 +26,8 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND ccs_sources
+    packet_dropper_impl.cc
+    wireshark_connector_impl.cc
 )
 
 add_library(gnuradio-ccs SHARED ${ccs_sources})
