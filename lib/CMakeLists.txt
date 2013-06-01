@@ -26,6 +26,7 @@ include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
 list(APPEND ccs_sources
+    burst_tagger_impl.cc
     packet_dropper_impl.cc
     wireshark_connector_impl.cc
 )

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<block>
+  <name>Burst Tagger</name>
+  <key>ccs_burst_tagger</key>
+  <category>CCS</category>
+  <import>import ccs</import>
+  <make>ccs.burst_tagger($tag_name)</make>
+
+  <param>
+    <name>Tag Name</name>
+    <key>tag_name</key>
+    <value>pmt.intern("burst_len")</value>
+    <type>raw</type>
+  </param>
+
+  <sink>
+    <name>in</name>
+    <type>complex</type>
+  </sink>
+
+  <source>
+    <name>out</name>
+    <type>complex</type>
+  </source>
+</block>

@@ -22,6 +22,7 @@
 ########################################################################
 install(FILES
 	api.h
+	burst_tagger.h
 	packet_dropper.h
 	wireshark_connector.h
 	DESTINATION include/ccs
