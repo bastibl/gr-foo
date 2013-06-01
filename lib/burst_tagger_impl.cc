@@ -41,6 +41,16 @@ burst_tagger_impl::work(int noutput_items,
 	const gr_complex *in = (const gr_complex*)input_items[0];
 	gr_complex *out = (gr_complex*)output_items[0];
 
+	std::vector<gr::tag_t> tags;
+	const uint64_t nread = nitems_read(0);
+
+	get_tags_in_range(tags, 0, nread, nread + noutput_items - 1,
+		d_tag_name);
+	std::sort(tags.begin(), tags.end(), tag_t::offset_compare);
+
+	if(tags.size()) {
+	}
+
 	return noutput_items;
 }
 
