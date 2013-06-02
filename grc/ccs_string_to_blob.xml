@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<block>
+	<name>String to Blob</name>
+	<key>ccs_string_to_blob</key>
+	<category>CCS</category>
+	<import>import cccs</import>
+	<make>ccs.string_to_blob()</make>
+
+	<sink>
+		<name>in</name>
+		<type>message</type>
+	</sink>
+
+	<source>
+		<name>out</name>
+		<type>message</type>
+	</source>
+</block>

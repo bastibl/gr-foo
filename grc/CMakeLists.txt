@@ -20,6 +20,10 @@
 install(FILES
 	ccs_burst_tagger.xml
 	ccs_packet_dropper.xml
+	ccs_packet_pad.xml
+	ccs_pdu_to_blob.xml
+	ccs_periodic_msg_source.xml
+	ccs_string_to_blob.xml
 	ccs_wireshark_connector.xml
 	DESTINATION share/gnuradio/grc/blocks
 )

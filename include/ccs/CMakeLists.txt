@@ -24,6 +24,10 @@ install(FILES
 	api.h
 	burst_tagger.h
 	packet_dropper.h
+	packet_pad.h
+	pdu_to_blob.h
+	periodic_msg_source.h
+	string_to_blob.h
 	wireshark_connector.h
 	DESTINATION include/ccs
 )

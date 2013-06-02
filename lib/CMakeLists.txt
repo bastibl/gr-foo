@@ -28,6 +28,10 @@ link_directories(${Boost_LIBRARY_DIRS})
 list(APPEND ccs_sources
     burst_tagger_impl.cc
     packet_dropper_impl.cc
+    packet_pad_impl.cc
+    pdu_to_blob_impl.cc
+    periodic_msg_source_impl.cc
+    string_to_blob_impl.cc
     wireshark_connector_impl.cc
 )
 

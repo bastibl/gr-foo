@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<block>
+	<name>PDU to Blob</name>
+	<key>ccs_pdu_to_blob</key>
+	<category>CCS</category>
+	<import>import ccs</import>
+	<make>ccs.pdu_to_blob()</make>
+
+	<sink>
+		<name>in</name>
+		<type>message</type>
+	</sink>
+
+	<source>
+		<name>out</name>
+		<type>message</type>
+	</source>
+</block>

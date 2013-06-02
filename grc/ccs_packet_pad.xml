@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<block>
+	<name>Packet Pad</name>
+	<key>ccs_packet_pad</key>
+	<category>CCS</category>
+	<import>import ccs</import>
+	<make>ccs.packet_pad($debug, $pad_front, $pad_tail)</make>
+
+	<param>
+		<name>Debug</name>
+		<key>debug</key>
+		<value>False</value>
+		<type>bool</type>
+
+		<option>
+			<name>Enable</name>
+			<key>True</key>
+		</option>
+		<option>
+			<name>Disable</name>
+			<key>False</key>
+		</option>
+	</param>
+	
+	<param>
+		<name>Pad Front</name>
+		<key>pad_front</key>
+		<value>0</value>
+		<type>int</type>
+	</param>
+	
+	<param>
+		<name>Pad Tail</name>
+		<key>pad_tail</key>
+		<value>0</value>
+		<type>int</type>
+	</param>
+
+	<sink>
+		<name>in</name>
+		<type>complex</type>
+		<nports>1</nports>
+	</sink>
+
+	<source>
+		<name>out</name>
+		<type>complex</type>
+		<nports>1</nports>
+	</source>
+
+</block>
