@@ -3,6 +3,7 @@
   <name>Burst Tagger</name>
   <key>ccs_burst_tagger</key>
   <category>CCS</category>
+  <import>import pmt</import>
   <import>import ccs</import>
   <make>ccs.burst_tagger($tag_name)</make>
 

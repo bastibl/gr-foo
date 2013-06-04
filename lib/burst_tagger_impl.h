@@ -28,7 +28,11 @@ namespace ccs {
 
 	class burst_tagger_impl : public burst_tagger {
 		private:
+			void add_eob(uint64_t item);
+			void add_sob(uint64_t item);
+
 			pmt::pmt_t d_tag_name;
+			int d_copy;
 
 		public:
 			burst_tagger_impl(pmt::pmt_t tag_name);
