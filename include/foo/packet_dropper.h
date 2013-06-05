@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_GR_FOO_PACKET_DROPPER_H
-#define INCLUDED_GR_FOO_PACKET_DROPPER_H
+#ifndef INCLUDED_FOO_PACKET_DROPPER_H
+#define INCLUDED_FOO_PACKET_DROPPER_H
 
 #include <foo/api.h>
 #include <gnuradio/block.h>
@@ -32,4 +32,4 @@ namespace foo {
 }  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_GR_FOO_PACKET_DROPPER_H */
+#endif /* INCLUDED_FOO_PACKET_DROPPER_H */

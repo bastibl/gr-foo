@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_H
-#define INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_H
+#ifndef INCLUDED_FOO_WIRESHARK_CONNECTOR_H
+#define INCLUDED_FOO_WIRESHARK_CONNECTOR_H
 
 #include <foo/api.h>
 #include <gnuradio/block.h>
@@ -34,4 +34,4 @@ public:
 }  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_H */
+#endif /* INCLUDED_FOO_WIRESHARK_CONNECTOR_H */

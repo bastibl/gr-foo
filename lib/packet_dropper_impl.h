@@ -15,8 +15,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_GR_FOO_PACKET_DROPPER_IMPL_H
-#define INCLUDED_GR_FOO_PACKET_DROPPER_IMPL_H
+#ifndef INCLUDED_FOO_PACKET_DROPPER_IMPL_H
+#define INCLUDED_FOO_PACKET_DROPPER_IMPL_H
 
 #include <foo/packet_dropper.h>
 
@@ -34,4 +34,4 @@ namespace foo {
 }
 }
 
-#endif /* INCLUDED_GR_FOO_PACKET_DROPPER_IMPL_H */
+#endif /* INCLUDED_FOO_PACKET_DROPPER_IMPL_H */

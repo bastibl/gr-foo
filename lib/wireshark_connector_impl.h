@@ -14,8 +14,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_IMPL_H
-#define INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_IMPL_H
+#ifndef INCLUDED_FOO_WIRESHARK_CONNECTOR_IMPL_H
+#define INCLUDED_FOO_WIRESHARK_CONNECTOR_IMPL_H
 
 #include <boost/cstdint.hpp>
 
@@ -46,4 +46,4 @@ struct pcap_pkt {
 }  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_IMPL_H */
+#endif /* INCLUDED_FOO_WIRESHARK_CONNECTOR_IMPL_H */
