@@ -4,7 +4,7 @@
 	<name>String to Blob</name>
 	<key>ccs_string_to_blob</key>
 	<category>CCS</category>
-	<import>import cccs</import>
+	<import>import ccs</import>
 	<make>ccs.string_to_blob()</make>
 
 	<sink>

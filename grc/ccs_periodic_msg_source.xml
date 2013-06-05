@@ -5,6 +5,7 @@
 	<key>ccs_periodic_msg_source</key>
 	<category>CCS</category>
 	<import>import ccs</import>
+	<import>import pmt</import>
 	<make>ccs..periodic_msg_source($msg, $interval, $num, $debug)</make>
 	<param>
 		<name>Message PMT</name>
