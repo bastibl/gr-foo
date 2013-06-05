@@ -17,31 +17,47 @@
 #ifndef INCLUDED_FOO_WIRESHARK_CONNECTOR_IMPL_H
 #define INCLUDED_FOO_WIRESHARK_CONNECTOR_IMPL_H
 
+#include <foo/wireshark_connector.h>
 #include <boost/cstdint.hpp>
 
 namespace gr {
 namespace foo {
 
-enum LINK_LAYER_PROTOCOL {
-	ZIGBEE = 195
-};
+	class wireshark_connector_impl : public wireshark_connector {
+		private:
+			bool        d_debug;
+			int         d_msg_offset;
+			int         d_msg_len;
+			char        d_msg[256];
+		public:
+			wireshark_connector_impl(bool debug);
+			virtual ~wireshark_connector_impl();
+			int general_work(int noutput, gr_vector_int& ninput_items,
+					gr_vector_const_void_star& input_items,
+					gr_vector_void_star& output_items );
+			void copy_message(const char *buf, int len);
+	};
 
-struct pcap_global {
-        uint32_t magic_number;   /* magic number */
-        uint16_t version_major;  /* major version number */
-        uint16_t version_minor;  /* minor version number */
-        int32_t  thiszone;       /* GMT to local correction */
-        uint32_t sigfigs;        /* accuracy of timestamps */
-        uint32_t snaplen;        /* max length of captured packets, in octets */
-        uint32_t network;        /* data link type */
-}__attribute__((packed));
+	enum LINK_LAYER_PROTOCOL {
+		ZIGBEE = 195
+	};
 
-struct pcap_pkt {
-	uint32_t ts_sec;         /* timestamp seconds */
-	uint32_t ts_usec;        /* timestamp microseconds */
-	uint32_t incl_len;       /* number of octets of packet saved in file */
-	uint32_t orig_len;       /* actual length of packet */
-}__attribute__((packed));
+	struct pcap_global {
+		uint32_t magic_number;   /* magic number */
+		uint16_t version_major;  /* major version number */
+		uint16_t version_minor;  /* minor version number */
+		int32_t  thiszone;       /* GMT to local correction */
+		uint32_t sigfigs;        /* accuracy of timestamps */
+		uint32_t snaplen;        /* max length of captured packets, in octets */
+		uint32_t network;        /* data link type */
+	}__attribute__((packed));
+
+	struct pcap_pkt {
+		uint32_t ts_sec;         /* timestamp seconds */
+		uint32_t ts_usec;        /* timestamp microseconds */
+		uint32_t incl_len;       /* number of octets of packet saved in file */
+		uint32_t orig_len;       /* actual length of packet */
+	}__attribute__((packed));
 
 }  // namespace foo
 }  // namespace gr

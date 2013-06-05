@@ -25,12 +25,9 @@
 using namespace gr::foo;
 
 
-class wireshark_connector_impl : public wireshark_connector {
-public:
-
 #define dout d_debug && std::cout
 
-wireshark_connector_impl(bool debug) :
+wireshark_connector_impl::wireshark_connector_impl(bool debug) :
 	block ("wireshark_connector",
 			gr::io_signature::make(0, 0, 0),
 			gr::io_signature::make(1, 1, sizeof(uint8_t))),
@@ -50,10 +47,11 @@ wireshark_connector_impl(bool debug) :
 	d_msg_len = sizeof(pcap_global);
 }
 
-~wireshark_connector_impl(void) {
+wireshark_connector_impl::~wireshark_connector_impl() {
 }
 
-void copy_message(const char *buf, int len) {
+void
+wireshark_connector_impl::copy_message(const char *buf, int len) {
 
 	struct timeval t;
 	gettimeofday(&t, NULL);
@@ -69,7 +67,8 @@ void copy_message(const char *buf, int len) {
 	d_msg_len = sizeof(pcap_pkt) + len;
 }
 
-int general_work(int noutput, gr_vector_int& ninput_items,
+int
+wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
                 gr_vector_const_void_star& input_items,
 		gr_vector_void_star& output_items ) {
 
@@ -114,13 +113,6 @@ int general_work(int noutput, gr_vector_int& ninput_items,
 		"   produced items: " << to_copy << std::endl;
 	return to_copy;
 }
-
-private:
-	bool        d_debug;
-	int         d_msg_offset;
-	int         d_msg_len;
-	char        d_msg[256];
-};
 
 wireshark_connector::sptr
 wireshark_connector::make(bool debug) {
