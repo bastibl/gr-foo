@@ -2,10 +2,10 @@
 
 <block>
 	<name>Packet Pad</name>
-	<key>ccs_packet_pad</key>
-	<category>CCS</category>
-	<import>import ccs</import>
-	<make>ccs.packet_pad($debug, $pad_front, $pad_tail)</make>
+	<key>foo_packet_pad</key>
+	<category>Foo</category>
+	<import>import foo</import>
+	<make>foo.packet_pad($debug, $pad_front, $pad_tail)</make>
 
 	<param>
 		<name>Debug</name>

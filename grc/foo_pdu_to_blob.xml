@@ -2,10 +2,10 @@
 
 <block>
 	<name>PDU to Blob</name>
-	<key>ccs_pdu_to_blob</key>
-	<category>CCS</category>
-	<import>import ccs</import>
-	<make>ccs.pdu_to_blob()</make>
+	<key>foo_pdu_to_blob</key>
+	<category>Foo</category>
+	<import>import foo</import>
+	<make>foo.pdu_to_blob()</make>
 
 	<sink>
 		<name>in</name>

@@ -2,10 +2,10 @@
 
 <block>
 	<name>String to Blob</name>
-	<key>ccs_string_to_blob</key>
-	<category>CCS</category>
-	<import>import ccs</import>
-	<make>ccs.string_to_blob()</make>
+	<key>foo_string_to_blob</key>
+	<category>Foo</category>
+	<import>import foo</import>
+	<make>foo.string_to_blob()</make>
 
 	<sink>
 		<name>in</name>

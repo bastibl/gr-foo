@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <block>
   <name>Burst Tagger</name>
-  <key>ccs_burst_tagger</key>
-  <category>CCS</category>
+  <key>foo_burst_tagger</key>
+  <category>Foo</category>
   <import>import pmt</import>
-  <import>import ccs</import>
-  <make>ccs.burst_tagger($tag_name)</make>
+  <import>import foo</import>
+  <make>foo.burst_tagger($tag_name)</make>
 
   <param>
     <name>Tag Name</name>

@@ -1,10 +1,10 @@
 <?xml version="1.0"?>
 <block>
 	<name>Wireshark Connector</name>
-	<key>ccs_wireshark_connector</key>
-	<category>CCS</category>
-	<import>import ccs</import>
-	<make>ccs.wireshark_connector($debug)</make>
+	<key>foo_wireshark_connector</key>
+	<category>Foo</category>
+	<import>import foo</import>
+	<make>foo.wireshark_connector($debug)</make>
 
 	<param>
 		<name>Debug</name>

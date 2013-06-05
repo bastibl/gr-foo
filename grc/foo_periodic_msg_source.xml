@@ -2,11 +2,11 @@
 
 <block>
 	<name>Periodic Message Source</name>
-	<key>ccs_periodic_msg_source</key>
-	<category>CCS</category>
-	<import>import ccs</import>
+	<key>foo_periodic_msg_source</key>
+	<category>Foo</category>
+	<import>import foo</import>
 	<import>import pmt</import>
-	<make>ccs..periodic_msg_source($msg, $interval, $num, $debug)</make>
+	<make>foo.periodic_msg_source($msg, $interval, $num, $debug)</make>
 	<param>
 		<name>Message PMT</name>
 		<key>msg</key>
