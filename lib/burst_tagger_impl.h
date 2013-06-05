@@ -33,9 +33,11 @@ namespace foo {
 
 			pmt::pmt_t d_tag_name;
 			int d_copy;
+			unsigned int d_mult;
 
 		public:
-			burst_tagger_impl(pmt::pmt_t tag_name);
+			burst_tagger_impl(pmt::pmt_t tag_name,
+					unsigned int mult);
 			~burst_tagger_impl();
 
 			int work(int noutput_items,

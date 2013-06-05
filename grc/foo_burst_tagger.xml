@@ -5,7 +5,7 @@
   <category>Foo</category>
   <import>import pmt</import>
   <import>import foo</import>
-  <make>foo.burst_tagger($tag_name)</make>
+  <make>foo.burst_tagger($tag_name, $mult)</make>
 
   <param>
     <name>Tag Name</name>
@@ -13,6 +13,15 @@
     <value>pmt.intern("burst_len")</value>
     <type>raw</type>
   </param>
+
+  <param>
+    <name>Multiplier</name>
+    <key>mult</key>
+    <value>1</value>
+    <type>int</type>
+  </param>
+
+  <check>$mult > 0</check>
 
   <sink>
     <name>in</name>

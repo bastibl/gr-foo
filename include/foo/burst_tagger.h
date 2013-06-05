@@ -31,7 +31,7 @@ namespace foo {
 		public:
 			typedef boost::shared_ptr<burst_tagger> sptr;
 
-			static sptr make(pmt::pmt_t tag_name);
+			static sptr make(pmt::pmt_t tag_name, unsigned int mult);
 	};
 
 } // namespace foo

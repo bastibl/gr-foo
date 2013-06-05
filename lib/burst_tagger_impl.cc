@@ -25,12 +25,14 @@
 namespace gr {
 namespace foo {
 
-burst_tagger_impl::burst_tagger_impl(pmt::pmt_t tag_name)
+burst_tagger_impl::burst_tagger_impl(pmt::pmt_t tag_name,
+		unsigned int mult)
 		: gr::sync_block("burst_tagger",
 			gr::io_signature::make(1, 1, sizeof(gr_complex)),
 			gr::io_signature::make(1, 1, sizeof(gr_complex))),
 		d_tag_name(tag_name),
-		d_copy(0) {
+		d_copy(0),
+		d_mult(mult) {
 }
 
 burst_tagger_impl::~burst_tagger_impl() {
@@ -81,7 +83,7 @@ burst_tagger_impl::work(int noutput_items,
 			GR_LOG_DEBUG(d_debug_log, "tags found");
 			tag_t tag = tags.front();
 			if(tag.offset == nitems_read(0)) {
-				d_copy = pmt::to_uint64(tag.value) * 128;
+				d_copy = pmt::to_uint64(tag.value) * d_mult;
 				GR_LOG_DEBUG(d_debug_log, boost::format("tag is at current offset, packet len %1%") % d_copy);
 				add_sob(nitems_written(0));
 			} else {
@@ -109,8 +111,8 @@ burst_tagger_impl::work(int noutput_items,
 	}
 }
 
-burst_tagger::sptr burst_tagger::make(pmt::pmt_t tag_name) {
-	return gnuradio::get_initial_sptr(new burst_tagger_impl(tag_name));
+burst_tagger::sptr burst_tagger::make(pmt::pmt_t tag_name, unsigned int mult) {
+	return gnuradio::get_initial_sptr(new burst_tagger_impl(tag_name, mult));
 }
 
 
