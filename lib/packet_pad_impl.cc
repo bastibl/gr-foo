@@ -14,20 +14,16 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <foo/packet_pad.h>
-#include <gnuradio/io_signature.h>
+#include "packet_pad_impl.h"
 
+#include <gnuradio/io_signature.h>
 #include <iostream>
 
 using namespace gr::foo;
 
-
-class packet_pad_impl : public packet_pad {
-
 #define dout d_debug && std::cout
 
-public:
-packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : block("packet_pad",
+packet_pad_impl::packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : block("packet_pad",
 			gr::io_signature::make(1, 1, sizeof(gr_complex)),
 			gr::io_signature::make(1, 1, sizeof(gr_complex))),
 			d_debug(debug), d_pad_front(pad_front),
@@ -38,11 +34,12 @@ packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : blo
 	set_tag_propagation_policy(block::TPP_DONT);
 }
 
-~packet_pad_impl(){
+packet_pad_impl::~packet_pad_impl(){
 }
 
-void insert_sob(uint64_t item) {
-	dout << "OFDM PAD: insert sob at: " << item << std::endl;
+void
+packet_pad_impl::add_sob(uint64_t item) {
+	dout << "PACKET PAD: insert sob at: " << item << std::endl;
 
 	static const pmt::pmt_t sob_key = pmt::string_to_symbol("tx_sob");
 	static const pmt::pmt_t value = pmt::PMT_T;
@@ -50,8 +47,9 @@ void insert_sob(uint64_t item) {
 	add_item_tag(0, item, sob_key, value, srcid);
 }
 
-void insert_eob(uint64_t item) {
-	dout << "OFDM PAD: insert eob at: " << item << std::endl;
+void
+packet_pad_impl::add_eob(uint64_t item) {
+	dout << "PACKET PAD: insert eob at: " << item << std::endl;
 
 	static const pmt::pmt_t eob_key = pmt::string_to_symbol("tx_eob");
 	static const pmt::pmt_t value = pmt::PMT_T;
@@ -59,7 +57,8 @@ void insert_eob(uint64_t item) {
 	add_item_tag(0, item, eob_key, value, srcid);
 }
 
-int general_work (int noutput_items, gr_vector_int& ninput_items,
+int
+packet_pad_impl::general_work (int noutput_items, gr_vector_int& ninput_items,
 		gr_vector_const_void_star& input_items,
 		gr_vector_void_star& output_items) {
 
@@ -77,13 +76,12 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 	const uint64_t nread = this->nitems_read(0);
 	std::vector<gr::tag_t> tags;
 
-	dout << "OFDM PAD: input size: " << ninput_items[0] << "   output size: "
+	dout << "PACKET PAD: input size: " << ninput_items[0] << "   output size: "
 	     << noutput_items << std::endl;
 
 	while(written < noutput) {
 
-		// debug
-		dout << "OFDM PAD: iteration - consumed: " << consumed <<
+		dout << "PACKET PAD: iteration - consumed: " << consumed <<
 				"   written: " << written << std::endl;
 
 		switch(d_state) {
@@ -105,10 +103,10 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 			d_frame_left = pmt::to_uint64(tags[0].value);
 			d_tail_left = d_pad_tail;
 
-			insert_sob(this->nitems_written(0) + written);
+			add_sob(this->nitems_written(0) + written);
 			d_state = FRONT;
 
-			dout << "OFDM PAD: new frame - length: " << d_frame_left << std::endl;
+			dout << "PACKET PAD: new frame - length: " << d_frame_left << std::endl;
 
 			break;
 
@@ -123,7 +121,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 				break;
 			}
 
-			dout << "OFDM PAD: pad front" << std::endl;
+			dout << "PACKET PAD: pad front" << std::endl;
 
 			memset(out, 0, sizeof(gr_complex));
 
@@ -140,7 +138,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 				goto out;
 			}
 
-			dout << "OFDM PAD: copy frame" << std::endl;
+			dout << "PACKET PAD: copy frame" << std::endl;
 
 			memcpy(out, in, sizeof(gr_complex));
 
@@ -161,11 +159,11 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 			if(!d_tail_left) {
 				d_state = IDLE;
-				insert_eob(this->nitems_written(0) + written - 1);
+				add_eob(this->nitems_written(0) + written - 1);
 				goto out;
 			}
 
-			dout << "OFDM PAD: pad tail" << std::endl;
+			dout << "PACKET PAD: pad tail" << std::endl;
 
 			memset(out, 0, sizeof(gr_complex));
 
@@ -183,13 +181,13 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 out:
 
-	dout << "OFDM PAD: consumed: " << consumed << "   produced: " << written << std::endl;
+	dout << "PACKET PAD: consumed: " << consumed << "   produced: " << written << std::endl;
 	consume(0, consumed);
 	return written;
 }
 
 void
-forecast (int noutput_items, gr_vector_int &ninput_items_required)
+packet_pad_impl::forecast (int noutput_items, gr_vector_int &ninput_items_required)
 {
 
 	if(d_frame_left) {
@@ -205,21 +203,6 @@ forecast (int noutput_items, gr_vector_int &ninput_items_required)
 	dout << "PAD state " << d_state << std::endl;
 	dout << "d_frame_left " << d_frame_left << std::endl;
 }
-
-
-
-private:
-	bool d_debug;
-
-	int d_pad_front;
-	int d_pad_tail;
-
-	int d_front_left;
-	int d_tail_left;
-	int d_frame_left;
-
-	enum {IDLE, FRONT, FRAME, TAIL} d_state;
-};
 
 packet_pad::sptr
 packet_pad::make(bool debug, unsigned int pad_front, unsigned int pad_tail) {
