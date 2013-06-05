@@ -33,6 +33,10 @@ burst_tagger_impl::burst_tagger_impl(pmt::pmt_t tag_name,
 		d_tag_name(tag_name),
 		d_copy(0),
 		d_mult(mult) {
+
+	if(!d_mult) {
+		throw std::out_of_range("multiplier must be > 0");
+	}
 }
 
 burst_tagger_impl::~burst_tagger_impl() {
@@ -42,9 +46,9 @@ void
 burst_tagger_impl::add_sob(uint64_t item) {
 	GR_LOG_DEBUG(d_debug_log, boost::format("insert tx_sob at item %1%") % item);
 
-	const pmt::pmt_t sob_key = pmt::string_to_symbol("tx_sob");
-	const pmt::pmt_t value = pmt::PMT_T;
-	const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
+	static const pmt::pmt_t sob_key = pmt::string_to_symbol("tx_sob");
+	static const pmt::pmt_t value = pmt::PMT_T;
+	static const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
 	add_item_tag(0, item, sob_key, value, srcid);
 }
 
@@ -53,9 +57,9 @@ void
 burst_tagger_impl::add_eob(uint64_t item) {
 	GR_LOG_DEBUG(d_debug_log, boost::format("insert tx_eob at item %1%") % item);
 
-	const pmt::pmt_t eob_key = pmt::string_to_symbol("tx_eob");
-	const pmt::pmt_t value = pmt::PMT_T;
-	const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
+	static const pmt::pmt_t eob_key = pmt::string_to_symbol("tx_eob");
+	static const pmt::pmt_t value = pmt::PMT_T;
+	static const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
 	add_item_tag(0, item, eob_key, value, srcid);
 }
 
