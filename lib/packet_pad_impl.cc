@@ -64,7 +64,6 @@ packet_pad_impl::general_work (int noutput_items, gr_vector_int& ninput_items,
 		gr_vector_const_void_star& input_items,
 		gr_vector_void_star& output_items) {
 
-	// these 4 values are updated in each iteration
 	const gr_complex *in = (const gr_complex*)input_items[0];
 	gr_complex *out = (gr_complex*)output_items[0];
 
@@ -72,7 +71,8 @@ packet_pad_impl::general_work (int noutput_items, gr_vector_int& ninput_items,
 	int noutput = noutput_items;
 
 	dout << "call: pad " << d_pad << "   ninput " << ninput << "  noutput " << noutput << std::endl;
-	// insert zeros
+
+	// pad zeros
 	if(d_pad) {
 		int n = std::min(d_pad, noutput);
 		std::memset(out, 0, n * sizeof(gr_complex));
@@ -156,9 +156,6 @@ packet_pad_impl::forecast (int noutput_items, gr_vector_int &ninput_items_requir
 	} else {
 		ninput_items_required[0] = noutput_items;
 	}
-
-	// dout << "PAD forecast noutput_items: " << noutput_items << "  required: " << ninput_items_required[0] << std::endl;
-	// dout << "d_pad " << d_pad << std::endl;
 }
 
 packet_pad::sptr
