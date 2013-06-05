@@ -29,15 +29,12 @@ static const int SYMBOL_LENGTH = 80;
 #define dout d_debug && std::cout
 
 public:
-packet_pad_impl(bool debug, int pad_front, int pad_tail) : block("packet_pad",
+packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : block("packet_pad",
 			gr::io_signature::make(1, 1, sizeof(gr_complex)),
 			gr::io_signature::make(1, 1, sizeof(gr_complex))),
 			d_debug(debug), d_pad_front(pad_front),
 			d_pad_tail(pad_tail), d_front_left(0),
 			d_tail_left(0), d_frame_left(0), d_state(IDLE) {
-
-	assert(pad_front >= 0);
-	assert(pad_tail >= 0);
 
 	set_relative_rate(1);
 	set_output_multiple(SYMBOL_LENGTH);
@@ -232,6 +229,6 @@ private:
 };
 
 packet_pad::sptr
-packet_pad::make(bool debug, int pad_front, int pad_tail) {
+packet_pad::make(bool debug, unsigned int pad_front, unsigned int pad_tail) {
 	return gnuradio::get_initial_sptr(new packet_pad_impl(debug, pad_front, pad_tail));
 }

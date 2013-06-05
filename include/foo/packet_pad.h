@@ -28,7 +28,7 @@ class FOO_API packet_pad : virtual public gr::block
 public:
 
 	typedef boost::shared_ptr<packet_pad> sptr;
-	static sptr make(bool debug = false, int pad_front = 0, int pad_tail = 0);
+	static sptr make(bool debug = false, unsigned int pad_front = 0, unsigned int pad_tail = 0);
 
 };
 

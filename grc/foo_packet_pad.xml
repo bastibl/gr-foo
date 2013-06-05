@@ -37,6 +37,9 @@
 		<type>int</type>
 	</param>
 
+        <check>$pad_front >= 0</check>
+        <check>$pad_tail >= 0</check>
+
 	<sink>
 		<name>in</name>
 		<type>complex</type>
