@@ -45,22 +45,20 @@ packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : blo
 }
 
 void insert_sob(uint64_t item) {
-	return;
 	dout << "OFDM PAD: insert sob at: " << item << std::endl;
 
-	const pmt::pmt_t sob_key = pmt::string_to_symbol("tx_sob");
-	const pmt::pmt_t value = pmt::PMT_T;
-	const pmt::pmt_t srcid = pmt::string_to_symbol(this->name());
+	static const pmt::pmt_t sob_key = pmt::string_to_symbol("tx_sob");
+	static const pmt::pmt_t value = pmt::PMT_T;
+	static const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
 	add_item_tag(0, item, sob_key, value, srcid);
-	add_item_tag(0, item, pmt::string_to_symbol("rel_tx_time"), pmt::from_double(0.05), srcid);
 }
 
 void insert_eob(uint64_t item) {
 	dout << "OFDM PAD: insert eob at: " << item << std::endl;
 
-	const pmt::pmt_t eob_key = pmt::string_to_symbol("tx_eob");
-	const pmt::pmt_t value = pmt::PMT_T;
-	const pmt::pmt_t srcid = pmt::string_to_symbol(this->name());
+	static const pmt::pmt_t eob_key = pmt::string_to_symbol("tx_eob");
+	static const pmt::pmt_t value = pmt::PMT_T;
+	static const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
 	add_item_tag(0, item, eob_key, value, srcid);
 }
 
