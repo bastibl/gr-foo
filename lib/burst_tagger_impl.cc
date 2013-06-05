@@ -44,7 +44,7 @@ burst_tagger_impl::~burst_tagger_impl() {
 
 void
 burst_tagger_impl::add_sob(uint64_t item) {
-	GR_LOG_DEBUG(d_debug_log, boost::format("insert tx_sob at item %1%") % item);
+	GR_LOG_DEBUG(d_debug_logger, boost::format("insert tx_sob at item %1%") % item);
 
 	static const pmt::pmt_t sob_key = pmt::string_to_symbol("tx_sob");
 	static const pmt::pmt_t value = pmt::PMT_T;
@@ -55,7 +55,7 @@ burst_tagger_impl::add_sob(uint64_t item) {
 
 void
 burst_tagger_impl::add_eob(uint64_t item) {
-	GR_LOG_DEBUG(d_debug_log, boost::format("insert tx_eob at item %1%") % item);
+	GR_LOG_DEBUG(d_debug_logger, boost::format("insert tx_eob at item %1%") % item);
 
 	static const pmt::pmt_t eob_key = pmt::string_to_symbol("tx_eob");
 	static const pmt::pmt_t value = pmt::PMT_T;
@@ -74,7 +74,7 @@ burst_tagger_impl::work(int noutput_items,
 
 
 	if(!d_copy) {
-		GR_LOG_DEBUG(d_debug_log, "nothing to copy -- searching for tags");
+		GR_LOG_DEBUG(d_debug_logger, "nothing to copy -- searching for tags");
 		std::vector<gr::tag_t> tags;
 		const uint64_t nread = nitems_read(0);
 
@@ -84,15 +84,15 @@ burst_tagger_impl::work(int noutput_items,
 
 		// copy until the first tag
 		if(tags.size()) {
-			GR_LOG_DEBUG(d_debug_log, "tags found");
+			GR_LOG_DEBUG(d_debug_logger, "tags found");
 			tag_t tag = tags.front();
 			if(tag.offset == nitems_read(0)) {
 				d_copy = pmt::to_uint64(tag.value) * d_mult;
-				GR_LOG_DEBUG(d_debug_log, boost::format("tag is at current offset, packet len %1%") % d_copy);
+				GR_LOG_DEBUG(d_debug_logger, boost::format("tag is at current offset, packet len %1%") % d_copy);
 				add_sob(nitems_written(0));
 			} else {
 				uint64_t cpy = std::min((uint64_t)noutput_items, tag.offset - nitems_written(0));
-				GR_LOG_DEBUG(d_debug_log, boost::format("tag is not at current offset, copying %1%") % cpy);
+				GR_LOG_DEBUG(d_debug_logger, boost::format("tag is not at current offset, copying %1%") % cpy);
 				std::memcpy(out, in, cpy * sizeof(gr_complex));
 				return cpy;
 			}
@@ -101,7 +101,7 @@ burst_tagger_impl::work(int noutput_items,
 
 	if(d_copy) {
 		int cpy = std::min(d_copy, noutput_items);
-		GR_LOG_DEBUG(d_debug_log, boost::format("copying %1% samples from packet") % cpy);
+		GR_LOG_DEBUG(d_debug_logger, boost::format("copying %1% samples from packet") % cpy);
 		std::memcpy(out, in, cpy * sizeof(gr_complex));
 		d_copy -= cpy;
 		if(d_copy == 0) {
@@ -109,7 +109,7 @@ burst_tagger_impl::work(int noutput_items,
 		}
 		return cpy;
 	} else {
-		GR_LOG_DEBUG(d_debug_log, boost::format("copy non-packet samples"));
+		GR_LOG_DEBUG(d_debug_logger, boost::format("copy non-packet samples"));
 		std::memcpy(out, in, noutput_items * sizeof(gr_complex));
 		return noutput_items;
 	}
