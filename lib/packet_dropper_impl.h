@@ -22,7 +22,7 @@
 
 namespace gr {
 namespace foo {
-	class FOO_API packet_dropper_impl : public packet_dropper {
+	class packet_dropper_impl : public packet_dropper {
 		private:
 			double d_drop_rate;
 			std::default_random_engine d_generator;

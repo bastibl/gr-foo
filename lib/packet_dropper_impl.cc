@@ -15,17 +15,18 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <foo/packet_dropper.h>
-#include <gnuradio/io_signature.h>
-#include <gnuradio/block_detail.h>
 #include "packet_dropper_impl.h"
+#include <gnuradio/io_signature.h>
 
 using namespace gr::foo;
 
 packet_dropper_impl::packet_dropper_impl(double drop_rate, unsigned long seed)
-	: d_drop_rate(drop_rate), d_generator(seed), d_distribution(0.0,1.0),
-	 block("rime_stack", gr::io_signature::make(0, 0, 0),
-				gr::io_signature::make(0, 0, 0))
+		: block("packet_dropper",
+				gr::io_signature::make(0, 0, 0),
+				gr::io_signature::make(0, 0, 0)),
+		d_drop_rate(drop_rate),
+		d_generator(seed),
+		d_distribution(0.0, 1.0)
 {
 	if(d_drop_rate >= 1){
 		throw std::out_of_range("drop rate has to be < 1");
