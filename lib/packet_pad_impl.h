@@ -35,12 +35,8 @@ namespace foo {
 			int d_pad_front;
 			int d_pad_tail;
 
-			int d_front_left;
-			int d_tail_left;
-			int d_frame_left;
-
-			enum {IDLE, FRONT, FRAME, TAIL} d_state;
-
+			int d_pad;
+			bool d_eob;
 
 		public:
 			packet_pad_impl(bool debug, unsigned int pad_front,
