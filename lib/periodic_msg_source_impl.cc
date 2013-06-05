@@ -50,22 +50,25 @@ periodic_msg_source_impl(pmt::pmt_t msg, float interval, int num_msg, bool debug
 
 
 void run(periodic_msg_source_impl *instance) {
-	while(!d_finished) {
+
+	// flow graph startup delay
+	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+
+	while(!d_finished && d_num_msg) {
 
 		dout << "number of messages left: " << d_num_msg << std::endl;
 
-		if(!d_num_msg || d_finished) {
-			d_finished = true;
-			break;
-		}
-
 		message_port_pub( pmt::mp("out"), d_msg );
-
-		boost::this_thread::sleep(boost::posix_time::milliseconds(d_interval)); 
 
 		if(d_num_msg > 0) {
 			d_num_msg--;
 		}
+
+		if(!d_num_msg) {
+			break;
+		}
+
+		boost::this_thread::sleep(boost::posix_time::milliseconds(d_interval));
 	} 
 
 	dout << "stopping msg source" << std::endl;
