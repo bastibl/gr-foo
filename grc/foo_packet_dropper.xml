@@ -9,12 +9,14 @@
   <param>
     <name>Packet drop rate</name>
     <key>drop_rate</key>
+    <value>0.5</value>
     <type>real</type>
   </param>
   
   <param>
     <name>Random seed</name>
     <key>seed</key>
+    <value>42</value>
     <type>int</type>
   </param>
   
