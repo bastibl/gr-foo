@@ -24,8 +24,6 @@ using namespace gr::foo;
 
 class packet_pad_impl : public packet_pad {
 
-static const int SYMBOL_LENGTH = 80;
-
 #define dout d_debug && std::cout
 
 public:
@@ -37,7 +35,6 @@ packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : blo
 			d_tail_left(0), d_frame_left(0), d_state(IDLE) {
 
 	set_relative_rate(1);
-	set_output_multiple(SYMBOL_LENGTH);
 	set_tag_propagation_policy(block::TPP_DONT);
 }
 
@@ -66,10 +63,8 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 		gr_vector_const_void_star& input_items,
 		gr_vector_void_star& output_items) {
 
-	int ninput = ninput_items[0] / SYMBOL_LENGTH;	// available input symbols
-	//assert(ninput_items[0] % SYMBOL_LENGTH == 0);
-	int noutput = noutput_items / SYMBOL_LENGTH;	// available output symbols
-
+	int ninput = ninput_items[0];
+	int noutput = noutput_items;
 
 	// these 4 values are updated in each iteration
 	const gr_complex *in = (const gr_complex*)input_items[0];
@@ -100,8 +95,8 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 				goto out;
 			}
 
-			get_tags_in_range(tags, 0, nread + consumed * SYMBOL_LENGTH,
-					nread + (consumed + 1) * SYMBOL_LENGTH - 1,
+			get_tags_in_range(tags, 0, nread + consumed,
+					nread + (consumed + 1) - 1,
 					pmt::string_to_symbol("ofdm_start"));
 
 			assert(tags.size() == 1);
@@ -110,7 +105,7 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 			d_frame_left = pmt::to_uint64(tags[0].value);
 			d_tail_left = d_pad_tail;
 
-			insert_sob(this->nitems_written(0) + written * SYMBOL_LENGTH);
+			insert_sob(this->nitems_written(0) + written);
 			d_state = FRONT;
 
 			dout << "OFDM PAD: new frame - length: " << d_frame_left << std::endl;
@@ -130,30 +125,30 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 			dout << "OFDM PAD: pad front" << std::endl;
 
-			memset(out, 0, SYMBOL_LENGTH * sizeof(gr_complex));
+			memset(out, 0, sizeof(gr_complex));
 
 			d_front_left--;
-			out += SYMBOL_LENGTH;
+			out++;
 			written++;
 
 			break;
 
 		case FRAME:
 
-			//assert((consumed + 1) * SYMBOL_LENGTH <= ninput_items[0]);
+			//assert((consumed + 1) <= ninput_items[0]);
 			if(consumed >= ninput) {
 				goto out;
 			}
 
 			dout << "OFDM PAD: copy frame" << std::endl;
 
-			memcpy(out, in, SYMBOL_LENGTH * sizeof(gr_complex));
+			memcpy(out, in, sizeof(gr_complex));
 
 			d_frame_left--;
 			consumed++;
 			written++;
-			in += SYMBOL_LENGTH;
-			out += SYMBOL_LENGTH;
+			in++;
+			out++;
 
 			if(!d_frame_left) {
 				d_state = TAIL;
@@ -166,17 +161,17 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 
 			if(!d_tail_left) {
 				d_state = IDLE;
-				insert_eob(this->nitems_written(0) + written * SYMBOL_LENGTH - 1);
+				insert_eob(this->nitems_written(0) + written - 1);
 				goto out;
 			}
 
 			dout << "OFDM PAD: pad tail" << std::endl;
 
-			memset(out, 0, SYMBOL_LENGTH * sizeof(gr_complex));
+			memset(out, 0, sizeof(gr_complex));
 
 			d_tail_left--;
 			written++;
-			out += SYMBOL_LENGTH;
+			out ++;
 
 			break;
 
@@ -189,8 +184,8 @@ int general_work (int noutput_items, gr_vector_int& ninput_items,
 out:
 
 	dout << "OFDM PAD: consumed: " << consumed << "   produced: " << written << std::endl;
-	consume(0, consumed * SYMBOL_LENGTH);
-	return written * SYMBOL_LENGTH;
+	consume(0, consumed);
+	return written;
 }
 
 void
