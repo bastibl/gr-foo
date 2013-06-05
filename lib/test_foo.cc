@@ -20,19 +20,28 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef _QA_CCS_H_
-#define _QA_CCS_H_
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
 
-#include <gnuradio/attributes.h>
-#include <cppunit/TestSuite.h>
+#include <cppunit/TextTestRunner.h>
+#include <cppunit/XmlOutputter.h>
 
-//! collect all the tests for the gr-filter directory
+#include <gnuradio/unittests.h>
+#include "qa_foo.h"
+#include <iostream>
 
-class __GR_ATTR_EXPORT qa_ccs
+int
+main (int argc, char **argv)
 {
- public:
-  //! return suite of tests for all of gr-filter directory
-  static CppUnit::TestSuite *suite();
-};
+  CppUnit::TextTestRunner runner;
+  std::ofstream xmlfile(get_unittest_path("foo.xml").c_str());
+  CppUnit::XmlOutputter *xmlout = new CppUnit::XmlOutputter(&runner.result(), xmlfile);
 
-#endif /* _QA_CCS_H_ */
+  runner.addTest(qa_foo::suite());
+  runner.setOutputter(xmlout);
+
+  bool was_successful = runner.run("", false);
+
+  return was_successful ? 0 : 1;
+}

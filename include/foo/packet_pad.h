@@ -14,25 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_CCS_PERIODIC_MSG_SOURCE_H
-#define INCLUDED_CCS_PERIODIC_MSG_SOURCE_H
+#ifndef INCLUDED_FOO_PACKET_PAD_H
+#define INCLUDED_FOO_PACKET_PAD_H
 
-#include <ccs/api.h>
+#include <foo/api.h>
 #include <gnuradio/block.h>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
-class CCS_API periodic_msg_source : virtual public gr::block
+class FOO_API packet_pad : virtual public gr::block
 {
 public:
 
-	typedef boost::shared_ptr<periodic_msg_source> sptr;
-	static sptr make(pmt::pmt_t msg, float interval, int num_msg = -1, bool debug = false);
+	typedef boost::shared_ptr<packet_pad> sptr;
+	static sptr make(bool debug = false, int pad_front = 0, int pad_tail = 0);
 
 };
 
-}  // namespace ccs
+}  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_CCS_PERIODIC_MSG_SOURCE */
+#endif /* INCLUDED_FOO_PACKET_PAD_H */

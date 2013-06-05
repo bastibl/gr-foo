@@ -18,12 +18,12 @@
 # Boston, MA 02110-1301, USA.
 
 install(FILES
-	ccs_burst_tagger.xml
-	ccs_packet_dropper.xml
-	ccs_packet_pad.xml
-	ccs_pdu_to_blob.xml
-	ccs_periodic_msg_source.xml
-	ccs_string_to_blob.xml
-	ccs_wireshark_connector.xml
+	foo_burst_tagger.xml
+	foo_packet_dropper.xml
+	foo_packet_pad.xml
+	foo_pdu_to_blob.xml
+	foo_periodic_msg_source.xml
+	foo_string_to_blob.xml
+	foo_wireshark_connector.xml
 	DESTINATION share/gnuradio/grc/blocks
 )

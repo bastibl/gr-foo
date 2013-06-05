@@ -31,7 +31,7 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
-    DESTINATION ${GR_PYTHON_DIR}/ccs
+    DESTINATION ${GR_PYTHON_DIR}/foo
 )
 
 ########################################################################
@@ -39,5 +39,5 @@ GR_PYTHON_INSTALL(
 ########################################################################
 include(GrTest)
 
-set(GR_TEST_TARGET_DEPS gnuradio-ccs)
+set(GR_TEST_TARGET_DEPS gnuradio-foo)
 set(GR_TEST_PYTHON_DIRS ${CMAKE_BINARY_DIR}/swig)

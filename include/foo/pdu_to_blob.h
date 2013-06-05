@@ -14,25 +14,25 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_CCS_STRING_TO_BLOB_H
-#define INCLUDED_CCS_STRING_TO_BLOB_H
+#ifndef INCLUDED_FOO_PDU_TO_BLOB_H
+#define INCLUDED_FOO_PDU_TO_BLOB_H
 
-#include <ccs/api.h>
+#include <foo/api.h>
 #include <gnuradio/block.h>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
-class CCS_API string_to_blob : virtual public gr::block
+class FOO_API pdu_to_blob : virtual public gr::block
 {
 public:
 
-	typedef boost::shared_ptr<string_to_blob> sptr;
+	typedef boost::shared_ptr<pdu_to_blob> sptr;
 	static sptr make();
 
 };
 
-}  // namespace ccs
+}  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_CCS_STRING_TO_BLOB_H */
+#endif /* INCLUDED_FOO_PDU_TO_BLOB_H */

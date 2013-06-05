@@ -15,12 +15,12 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <ccs/packet_dropper.h>
+#include <foo/packet_dropper.h>
 #include <gnuradio/io_signature.h>
 #include <gnuradio/block_detail.h>
 #include "packet_dropper_impl.h"
 
-using namespace gr::ccs;
+using namespace gr::foo;
 
 packet_dropper_impl::packet_dropper_impl(double drop_rate, unsigned long seed)
 	: d_drop_rate(drop_rate), d_generator(seed), d_distribution(0.0,1.0),

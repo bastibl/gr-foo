@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ccs/pdu_to_blob.h>
+#include <foo/pdu_to_blob.h>
 
 #include <gnuradio/io_signature.h>
 #include <string>
 
-using namespace gr::ccs;
+using namespace gr::foo;
 
 class pdu_to_blob_impl : public pdu_to_blob {
 

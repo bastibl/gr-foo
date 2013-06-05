@@ -41,8 +41,8 @@ if _RTLD_GLOBAL != 0:
 # ----------------------------------------------------------------
 
 
-# import swig generated symbols into the ccs namespace
-from ccs_swig import *
+# import swig generated symbols into the foo namespace
+from foo_swig import *
 
 # import any pure python here
 #

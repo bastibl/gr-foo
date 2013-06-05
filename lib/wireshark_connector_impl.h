@@ -14,13 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_GR_CCS_WIRESHARK_CONNECTOR_IMPL_H
-#define INCLUDED_GR_CCS_WIRESHARK_CONNECTOR_IMPL_H
+#ifndef INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_IMPL_H
+#define INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_IMPL_H
 
 #include <boost/cstdint.hpp>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
 enum LINK_LAYER_PROTOCOL {
 	ZIGBEE = 195
@@ -43,7 +43,7 @@ struct pcap_pkt {
 	uint32_t orig_len;       /* actual length of packet */
 }__attribute__((packed));
 
-}  // namespace ccs
+}  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_GR_CCS_WIRESHARK_CONNECTOR_IMPL_H */
+#endif /* INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_IMPL_H */

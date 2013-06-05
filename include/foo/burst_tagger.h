@@ -18,24 +18,24 @@
  */
 
 
-#ifndef INCLUDED_CCS_BURST_TAGGER_H
-#define INCLUDED_CCS_BURST_TAGGER_H
+#ifndef INCLUDED_FOO_BURST_TAGGER_H
+#define INCLUDED_FOO_BURST_TAGGER_H
 
-#include <ccs/api.h>
+#include <foo/api.h>
 #include <gnuradio/sync_block.h>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
-	class CCS_API burst_tagger : virtual public gr::sync_block {
+	class FOO_API burst_tagger : virtual public gr::sync_block {
 		public:
 			typedef boost::shared_ptr<burst_tagger> sptr;
 
 			static sptr make(pmt::pmt_t tag_name);
 	};
 
-} // namespace ccs
+} // namespace foo
 } // namespace gr
 
-#endif /* INCLUDED_CCS_BURST_TAGGER_H */
+#endif /* INCLUDED_FOO_BURST_TAGGER_H */
 

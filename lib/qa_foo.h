@@ -1,5 +1,6 @@
+/* -*- c++ -*- */
 /*
- * Copyright 2011 Free Software Foundation, Inc.
+ * Copyright 2012 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -19,15 +20,19 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_CCS_API_H
-#define INCLUDED_CCS_API_H
+#ifndef _QA_FOO_H_
+#define _QA_FOO_H_
 
 #include <gnuradio/attributes.h>
+#include <cppunit/TestSuite.h>
 
-#ifdef gnuradio_ccs_EXPORTS
-#  define CCS_API __GR_ATTR_EXPORT
-#else
-#  define CCS_API __GR_ATTR_IMPORT
-#endif
+//! collect all the tests for the gr-filter directory
 
-#endif /* INCLUDED_CCS_API_H */
+class __GR_ATTR_EXPORT qa_foo
+{
+ public:
+  //! return suite of tests for all of gr-filter directory
+  static CppUnit::TestSuite *suite();
+};
+
+#endif /* _QA_FOO_H_ */

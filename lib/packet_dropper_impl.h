@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef INCLUDED_GR_CCS_PACKET_DROPPER_IMPL_H
-#define INCLUDED_GR_CCS_PACKET_DROPPER_IMPL_H
+#ifndef INCLUDED_GR_FOO_PACKET_DROPPER_IMPL_H
+#define INCLUDED_GR_FOO_PACKET_DROPPER_IMPL_H
 
-#include <ccs/packet_dropper.h>
+#include <foo/packet_dropper.h>
 
 namespace gr {
-namespace ccs {
-	class CCS_API packet_dropper_impl : public packet_dropper {
+namespace foo {
+	class FOO_API packet_dropper_impl : public packet_dropper {
 		private:
 			double d_drop_rate;
 			std::default_random_engine d_generator;
@@ -34,4 +34,4 @@ namespace ccs {
 }
 }
 
-#endif /* INCLUDED_GR_CCS_PACKET_DROPPER_IMPL_H */
+#endif /* INCLUDED_GR_FOO_PACKET_DROPPER_IMPL_H */

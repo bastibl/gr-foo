@@ -15,14 +15,14 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #include "wireshark_connector_impl.h"
-#include <ccs/wireshark_connector.h>
+#include <foo/wireshark_connector.h>
 #include <gnuradio/io_signature.h>
 
 #include <iostream>
 #include <iomanip>
 #include <sys/time.h>
 
-using namespace gr::ccs;
+using namespace gr::foo;
 
 
 class wireshark_connector_impl : public wireshark_connector {

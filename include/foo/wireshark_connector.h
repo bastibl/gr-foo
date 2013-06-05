@@ -14,25 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_CCS_PACKET_PAD_H
-#define INCLUDED_CCS_PACKET_PAD_H
+#ifndef INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_H
+#define INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_H
 
-#include <ccs/api.h>
+#include <foo/api.h>
 #include <gnuradio/block.h>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
-class CCS_API packet_pad : virtual public gr::block
+class FOO_API wireshark_connector : virtual public gr::block
 {
 public:
-
-	typedef boost::shared_ptr<packet_pad> sptr;
-	static sptr make(bool debug = false, int pad_front = 0, int pad_tail = 0);
-
+	
+	typedef boost::shared_ptr<wireshark_connector> sptr;
+	static sptr make(bool debug= false);
 };
 
-}  // namespace ccs
+}  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_CCS_PACKET_PAD_H */
+#endif /* INCLUDED_GR_FOO_WIRESHARK_CONNECTOR_H */

@@ -23,7 +23,7 @@
 #define dout std::cout
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
 burst_tagger_impl::burst_tagger_impl(pmt::pmt_t tag_name)
 		: gr::sync_block("burst_tagger",
@@ -114,6 +114,6 @@ burst_tagger::sptr burst_tagger::make(pmt::pmt_t tag_name) {
 }
 
 
-} /* namespace ccs */
+} /* namespace foo */
 } /* namespace gr */
 

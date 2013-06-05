@@ -1,5 +1,5 @@
 /*
- * Copyright 2012 Free Software Foundation, Inc.
+ * Copyright 2011 Free Software Foundation, Inc.
  *
  * This file is part of GNU Radio
  *
@@ -19,18 +19,15 @@
  * Boston, MA 02110-1301, USA.
  */
 
-/*
- * This class gathers together all the test cases for the gr-filter
- * directory into a single test suite.  As you create new test cases,
- * add them here.
- */
+#ifndef INCLUDED_FOO_API_H
+#define INCLUDED_FOO_API_H
 
-#include "qa_ccs.h"
+#include <gnuradio/attributes.h>
 
-CppUnit::TestSuite *
-qa_ccs::suite()
-{
-  CppUnit::TestSuite *s = new CppUnit::TestSuite("ccs");
+#ifdef gnuradio_foo_EXPORTS
+#  define FOO_API __GR_ATTR_EXPORT
+#else
+#  define FOO_API __GR_ATTR_IMPORT
+#endif
 
-  return s;
-}
+#endif /* INCLUDED_FOO_API_H */

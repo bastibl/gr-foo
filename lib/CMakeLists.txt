@@ -25,7 +25,7 @@ include(GrPlatform) #define LIB_SUFFIX
 include_directories(${Boost_INCLUDE_DIR})
 link_directories(${Boost_LIBRARY_DIRS})
 
-list(APPEND ccs_sources
+list(APPEND foo_sources
     burst_tagger_impl.cc
     packet_dropper_impl.cc
     packet_pad_impl.cc
@@ -35,14 +35,14 @@ list(APPEND ccs_sources
     wireshark_connector_impl.cc
 )
 
-add_library(gnuradio-ccs SHARED ${ccs_sources})
-target_link_libraries(gnuradio-ccs ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES})
-set_target_properties(gnuradio-ccs PROPERTIES DEFINE_SYMBOL "gnuradio_ccs_EXPORTS")
+add_library(gnuradio-foo SHARED ${foo_sources})
+target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES})
+set_target_properties(gnuradio-foo PROPERTIES DEFINE_SYMBOL "gnuradio_foo_EXPORTS")
 
 ########################################################################
 # Install built library files
 ########################################################################
-install(TARGETS gnuradio-ccs
+install(TARGETS gnuradio-foo
     LIBRARY DESTINATION lib${LIB_SUFFIX} # .so/.dylib file
     ARCHIVE DESTINATION lib${LIB_SUFFIX} # .lib file
     RUNTIME DESTINATION bin              # .dll file
@@ -55,19 +55,19 @@ include(GrTest)
 
 include_directories(${CPPUNIT_INCLUDE_DIRS})
 
-list(APPEND test_ccs_sources
-    ${CMAKE_CURRENT_SOURCE_DIR}/test_ccs.cc
-    ${CMAKE_CURRENT_SOURCE_DIR}/qa_ccs.cc
+list(APPEND test_foo_sources
+    ${CMAKE_CURRENT_SOURCE_DIR}/test_foo.cc
+    ${CMAKE_CURRENT_SOURCE_DIR}/qa_foo.cc
 )
 
-add_executable(test-ccs ${test_ccs_sources})
+add_executable(test-foo ${test_foo_sources})
 
 target_link_libraries(
-  test-ccs
+  test-foo
   ${GNURADIO_RUNTIME_LIBRARIES}
   ${Boost_LIBRARIES}
   ${CPPUNIT_LIBRARIES}
-  gnuradio-ccs
+  gnuradio-foo
 )
 
-GR_ADD_TEST(test_ccs test-ccs)
+GR_ADD_TEST(test_foo test-foo)

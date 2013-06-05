@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <ccs/packet_pad.h>
+#include <foo/packet_pad.h>
 #include <gnuradio/io_signature.h>
 
 #include <iostream>
 
-using namespace gr::ccs;
+using namespace gr::foo;
 
 
 class packet_pad_impl : public packet_pad {

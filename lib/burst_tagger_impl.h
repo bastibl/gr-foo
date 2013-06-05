@@ -18,13 +18,13 @@
  * Boston, MA 02110-1301, USA.
  */
 
-#ifndef INCLUDED_CCS_BURST_TAGGER_IMPL_H
-#define INCLUDED_CCS_BURST_TAGGER_IMPL_H
+#ifndef INCLUDED_FOO_BURST_TAGGER_IMPL_H
+#define INCLUDED_FOO_BURST_TAGGER_IMPL_H
 
-#include <ccs/burst_tagger.h>
+#include <foo/burst_tagger.h>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
 	class burst_tagger_impl : public burst_tagger {
 		private:
@@ -43,8 +43,8 @@ namespace ccs {
 				gr_vector_void_star &output_items);
 	};
 
-} // namespace ccs
+} // namespace foo
 } // namespace gr
 
-#endif /* INCLUDED_CCS_BURST_TAGGER_IMPL_H */
+#endif /* INCLUDED_FOO_BURST_TAGGER_IMPL_H */
 

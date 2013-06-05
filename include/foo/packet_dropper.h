@@ -14,22 +14,22 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef INCLUDED_GR_CCS_PACKET_DROPPER_H
-#define INCLUDED_GR_CCS_PACKET_DROPPER_H
+#ifndef INCLUDED_GR_FOO_PACKET_DROPPER_H
+#define INCLUDED_GR_FOO_PACKET_DROPPER_H
 
-#include <ccs/api.h>
+#include <foo/api.h>
 #include <gnuradio/block.h>
 
 namespace gr {
-namespace ccs {
+namespace foo {
 
-	class CCS_API packet_dropper : virtual public gr::block
+	class FOO_API packet_dropper : virtual public gr::block
 	{
 	public:
 		typedef boost::shared_ptr<packet_dropper> sptr;
 		static sptr make(double drop_rate, unsigned long seed);
 	};
-}  // namespace ccs
+}  // namespace foo
 }  // namespace gr
 
-#endif /* INCLUDED_GR_CCS_PACKET_DROPPER_H */
+#endif /* INCLUDED_GR_FOO_PACKET_DROPPER_H */

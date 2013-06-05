@@ -29,5 +29,5 @@ install(FILES
 	periodic_msg_source.h
 	string_to_blob.h
 	wireshark_connector.h
-	DESTINATION include/ccs
+	DESTINATION include/foo
 )
