@@ -42,25 +42,20 @@ pdu_to_blob_impl() :
 
 void make_blob(pmt::pmt_t msg) {
 
-	assert(pmt::is_pair(msg));
+	if(!pmt::is_pair(msg))
+		throw std::invalid_argument("this block expects PDUs as input");
 
 	pmt::pmt_t vec = pmt::cdr(msg);
-	assert(pmt::is_u8vector(vec));
+
+	if(!pmt::is_u8vector(vec))
+		throw std::invalid_argument("this block expects PDUs as input");
 
 	size_t len;
-
 	const void *data = pmt::uniform_vector_elements(vec, len);
-	assert(len < 4000);
 
-	std::memcpy(buf, data, len);
-
-	pmt::pmt_t blob = pmt::make_blob(buf, len);
-
+	pmt::pmt_t blob = pmt::make_blob(data, len);
 	message_port_pub(pmt::mp("out"), blob);
 }
-
-private:
-	char buf[4000];
 
 };
 
