@@ -37,7 +37,7 @@ wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 
 	message_port_register_in(pmt::mp("in"));
 
-	pcap_global *hdr   = (pcap_global*)d_msg;
+	pcap_file_hdr *hdr   = (pcap_file_hdr*)d_msg;
 	hdr->magic_number  = 0xa1b2c3d4;
 	hdr->version_major = 2;
 	hdr->version_minor = 4;
@@ -45,7 +45,7 @@ wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 	hdr->sigfigs       = 0;
 	hdr->snaplen       = 65535;
 	hdr->network       = d_link;
-	d_msg_len = sizeof(pcap_global);
+	d_msg_len = sizeof(pcap_file_hdr);
 }
 
 wireshark_connector_impl::~wireshark_connector_impl() {
@@ -56,16 +56,48 @@ wireshark_connector_impl::copy_message(const char *buf, int len) {
 
 	struct timeval t;
 	gettimeofday(&t, NULL);
+	std::size_t offset = 0;
 
-	pcap_pkt hdr;
-	hdr.ts_sec   = t.tv_sec;
-	hdr.ts_usec  = t.tv_usec;
-	hdr.incl_len = len;
-	hdr.orig_len = len;
+	// radiotap header
+	switch(d_link) {
+	case WIFI: {
+		// pcap header
+		pcap_hdr *hdr = reinterpret_cast<pcap_hdr*>(d_msg);
+		hdr->ts_sec   = t.tv_sec;
+		hdr->ts_usec  = t.tv_usec;
+		hdr->incl_len = len + sizeof(radiotap_hdr);
+		hdr->orig_len = len + sizeof(radiotap_hdr);
+		offset += sizeof(struct pcap_hdr);
 
-	memcpy(d_msg, &hdr, sizeof(pcap_pkt));
-	memcpy(d_msg + sizeof(pcap_pkt), buf, len);
-	d_msg_len = sizeof(pcap_pkt) + len;
+		radiotap_hdr *rhdr = reinterpret_cast<radiotap_hdr*>(d_msg + offset);
+		rhdr->version     = 0;
+		rhdr->hdr_length  = sizeof(radiotap_hdr);
+		rhdr->bitmap      = 0x0000086e;
+		rhdr->flags       = 0;
+		rhdr->rate        = 12;
+		rhdr->channel     = 178;
+		rhdr->signal      = 42;
+		rhdr->noise       = 23;
+		rhdr->antenna     = 1;
+		offset += sizeof(struct radiotap_hdr);
+
+		break;
+	}
+
+	case ZIGBEE: {
+
+		pcap_hdr *hdr = reinterpret_cast<pcap_hdr*>(d_msg);
+		hdr->ts_sec   = t.tv_sec;
+		hdr->ts_usec  = t.tv_usec;
+		hdr->incl_len = len;
+		hdr->orig_len = len;
+		offset += sizeof(pcap_hdr);
+		break;
+	}
+	}
+
+	memcpy(d_msg + offset, buf, len);
+	d_msg_len = offset + len;
 }
 
 int

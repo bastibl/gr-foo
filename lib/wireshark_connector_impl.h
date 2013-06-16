@@ -39,7 +39,7 @@ namespace foo {
 			void copy_message(const char *buf, int len);
 	};
 
-	struct pcap_global {
+	struct pcap_file_hdr {
 		uint32_t magic_number;   /* magic number */
 		uint16_t version_major;  /* major version number */
 		uint16_t version_minor;  /* minor version number */
@@ -49,11 +49,23 @@ namespace foo {
 		uint32_t network;        /* data link type */
 	}__attribute__((packed));
 
-	struct pcap_pkt {
+	struct pcap_hdr {
 		uint32_t ts_sec;         /* timestamp seconds */
 		uint32_t ts_usec;        /* timestamp microseconds */
 		uint32_t incl_len;       /* number of octets of packet saved in file */
 		uint32_t orig_len;       /* actual length of packet */
+	}__attribute__((packed));
+
+	struct radiotap_hdr {
+		uint16_t version;
+		uint16_t hdr_length;
+		uint32_t bitmap;
+		uint8_t  flags;
+		uint8_t  rate;
+		uint32_t channel;
+		uint8_t  signal;
+		uint8_t  noise;
+		uint8_t  antenna;
 	}__attribute__((packed));
 
 }  // namespace foo
