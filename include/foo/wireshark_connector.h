@@ -23,12 +23,17 @@
 namespace gr {
 namespace foo {
 
+enum LinkType {
+	WIFI = 127,
+	ZIGBEE = 195
+};
+
 class FOO_API wireshark_connector : virtual public gr::block
 {
 public:
 	
 	typedef boost::shared_ptr<wireshark_connector> sptr;
-	static sptr make(bool debug= false);
+	static sptr make(LinkType type, bool debug= false);
 };
 
 }  // namespace foo

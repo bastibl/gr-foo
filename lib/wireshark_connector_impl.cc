@@ -27,12 +27,13 @@ using namespace gr::foo;
 
 #define dout d_debug && std::cout
 
-wireshark_connector_impl::wireshark_connector_impl(bool debug) :
+wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 	block ("wireshark_connector",
 			gr::io_signature::make(0, 0, 0),
 			gr::io_signature::make(1, 1, sizeof(uint8_t))),
 			d_msg_offset(0),
-			d_debug(debug) {
+			d_debug(debug),
+			d_link(type) {
 
 	message_port_register_in(pmt::mp("in"));
 
@@ -43,7 +44,7 @@ wireshark_connector_impl::wireshark_connector_impl(bool debug) :
 	hdr->thiszone      = 0;
 	hdr->sigfigs       = 0;
 	hdr->snaplen       = 65535;
-	hdr->network       = ZIGBEE;
+	hdr->network       = d_link;
 	d_msg_len = sizeof(pcap_global);
 }
 
@@ -115,6 +116,6 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 }
 
 wireshark_connector::sptr
-wireshark_connector::make(bool debug) {
-	return gnuradio::get_initial_sptr(new wireshark_connector_impl(debug));
+wireshark_connector::make(LinkType type, bool debug) {
+	return gnuradio::get_initial_sptr(new wireshark_connector_impl(type, debug));
 }

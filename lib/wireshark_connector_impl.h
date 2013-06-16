@@ -29,17 +29,14 @@ namespace foo {
 			int         d_msg_offset;
 			int         d_msg_len;
 			char        d_msg[256];
+			LinkType    d_link;
 		public:
-			wireshark_connector_impl(bool debug);
+			wireshark_connector_impl(LinkType type, bool debug);
 			virtual ~wireshark_connector_impl();
 			int general_work(int noutput, gr_vector_int& ninput_items,
 					gr_vector_const_void_star& input_items,
 					gr_vector_void_star& output_items );
 			void copy_message(const char *buf, int len);
-	};
-
-	enum LINK_LAYER_PROTOCOL {
-		ZIGBEE = 195
 	};
 
 	struct pcap_global {
