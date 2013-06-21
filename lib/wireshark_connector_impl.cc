@@ -37,7 +37,10 @@ wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 
 	message_port_register_in(pmt::mp("in"));
 
-	pcap_file_hdr *hdr   = (pcap_file_hdr*)d_msg;
+	d_msg_len = sizeof(pcap_file_hdr);
+	d_msg = reinterpret_cast<char*>(std::malloc(d_msg_len));
+
+	pcap_file_hdr *hdr   = reinterpret_cast<pcap_file_hdr*>(d_msg);
 	hdr->magic_number  = 0xa1b2c3d4;
 	hdr->version_major = 2;
 	hdr->version_minor = 4;
@@ -45,10 +48,12 @@ wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 	hdr->sigfigs       = 0;
 	hdr->snaplen       = 65535;
 	hdr->network       = d_link;
-	d_msg_len = sizeof(pcap_file_hdr);
 }
 
 wireshark_connector_impl::~wireshark_connector_impl() {
+	if(d_msg_len) {
+		std::free(d_msg);
+	}
 }
 
 void
@@ -62,6 +67,9 @@ wireshark_connector_impl::copy_message(const char *buf, int len) {
 	switch(d_link) {
 	case WIFI: {
 		// pcap header
+		d_msg = reinterpret_cast<char*>(std::malloc(
+				len + sizeof(radiotap_hdr) + sizeof(pcap_hdr)));
+
 		pcap_hdr *hdr = reinterpret_cast<pcap_hdr*>(d_msg);
 		hdr->ts_sec   = t.tv_sec;
 		hdr->ts_usec  = t.tv_usec;
@@ -85,6 +93,9 @@ wireshark_connector_impl::copy_message(const char *buf, int len) {
 	}
 
 	case ZIGBEE: {
+
+		d_msg = reinterpret_cast<char*>(std::malloc(
+				len + sizeof(pcap_hdr)));
 
 		pcap_hdr *hdr = reinterpret_cast<pcap_hdr*>(d_msg);
 		hdr->ts_sec   = t.tv_sec;
@@ -140,6 +151,7 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 	if(d_msg_offset == d_msg_len) {
 		d_msg_offset = 0;
 		d_msg_len = 0;
+		std::free(d_msg);
 	}
 
 	dout << "WIRESHARK: output size: " <<  noutput <<

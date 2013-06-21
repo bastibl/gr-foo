@@ -28,7 +28,7 @@ namespace foo {
 			bool        d_debug;
 			int         d_msg_offset;
 			int         d_msg_len;
-			char        d_msg[256];
+			char*       d_msg;
 			LinkType    d_link;
 		public:
 			wireshark_connector_impl(LinkType type, bool debug);
