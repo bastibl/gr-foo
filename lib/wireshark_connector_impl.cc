@@ -64,8 +64,8 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 	const char *buf = reinterpret_cast<const char*>(pmt::blob_data(pmt::cdr(pdu)));
 	std::size_t offset = 0;
 
-	// radiotap header
 	switch(d_link) {
+
 	case WIFI: {
 		// pcap header
 		d_msg = reinterpret_cast<char*>(std::malloc(
@@ -78,14 +78,15 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 		hdr->orig_len = len + sizeof(radiotap_hdr);
 		offset += sizeof(struct pcap_hdr);
 
+		// check if rate is attached
 		uint8_t rate = 12;
 		pmt::pmt_t dict = pmt::car(pdu);
-
 		pmt::pmt_t encoding = pmt::dict_ref(dict, pmt::mp("encoding"), pmt::PMT_NIL);
 		if(pmt::is_uint64(encoding)) {
 			rate = encoding_to_rate(pmt::to_uint64(encoding));
 		}
 
+		// radiotap header
 		radiotap_hdr *rhdr = reinterpret_cast<radiotap_hdr*>(d_msg + offset);
 		rhdr->version     = 0;
 		rhdr->hdr_length  = sizeof(radiotap_hdr);
@@ -123,6 +124,8 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 uint8_t
 wireshark_connector_impl::encoding_to_rate(uint64_t encoding) {
 
+	// rates in radiotab rate field
+	// are in 0.5 Mbit/s steps
 	switch(encoding) {
 	case 0:
 		return  6 * 2;
