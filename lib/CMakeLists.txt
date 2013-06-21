@@ -30,7 +30,6 @@ list(APPEND foo_sources
     packet_dropper_impl.cc
     packet_pad_impl.cc
     periodic_msg_source_impl.cc
-    string_to_blob_impl.cc
     wireshark_connector_impl.cc
 )
 

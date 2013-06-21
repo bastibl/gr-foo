@@ -26,7 +26,6 @@ install(FILES
 	packet_dropper.h
 	packet_pad.h
 	periodic_msg_source.h
-	string_to_blob.h
 	wireshark_connector.h
 	DESTINATION include/foo
 )
