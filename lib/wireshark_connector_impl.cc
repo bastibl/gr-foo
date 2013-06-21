@@ -141,6 +141,9 @@ wireshark_connector_impl::encoding_to_rate(uint64_t encoding) {
 	case 7:
 		return 54 * 2;
 	}
+
+	throw std::invalid_argument("wrong encoding");
+	return 0;
 }
 
 int
