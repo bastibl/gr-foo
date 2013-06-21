@@ -10,7 +10,7 @@
 	<param>
 		<name>Message PMT</name>
 		<key>msg</key>
-		<value>pmt.pmt_intern("Hello World!")</value>
+		<value>pmt.intern("Hello World!")</value>
 		<type>raw</type>
 	</param>
 	<param>
