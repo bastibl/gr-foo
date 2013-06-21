@@ -50,9 +50,6 @@ wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 	hdr->network       = d_link;
 }
 
-wireshark_connector_impl::~wireshark_connector_impl() {
-}
-
 void
 wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 
