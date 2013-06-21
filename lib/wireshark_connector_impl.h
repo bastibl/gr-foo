@@ -25,6 +25,9 @@ namespace foo {
 
 	class wireshark_connector_impl : public wireshark_connector {
 		private:
+			uint8_t encoding_to_rate(uint64_t encoding);
+			void handle_pdu(pmt::pmt_t pdu);
+
 			bool        d_debug;
 			int         d_msg_offset;
 			int         d_msg_len;
@@ -36,7 +39,6 @@ namespace foo {
 			int general_work(int noutput, gr_vector_int& ninput_items,
 					gr_vector_const_void_star& input_items,
 					gr_vector_void_star& output_items );
-			void copy_message(const char *buf, int len);
 	};
 
 	struct pcap_file_hdr {

@@ -51,16 +51,17 @@ wireshark_connector_impl::wireshark_connector_impl(LinkType type, bool debug) :
 }
 
 wireshark_connector_impl::~wireshark_connector_impl() {
-	if(d_msg_len) {
-		std::free(d_msg);
-	}
 }
 
 void
-wireshark_connector_impl::copy_message(const char *buf, int len) {
+wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 
+	// get current time
 	struct timeval t;
 	gettimeofday(&t, NULL);
+
+	std::size_t len = pmt::blob_length(pmt::cdr(pdu));
+	const char *buf = reinterpret_cast<const char*>(pmt::blob_data(pmt::cdr(pdu)));
 	std::size_t offset = 0;
 
 	// radiotap header
@@ -77,12 +78,20 @@ wireshark_connector_impl::copy_message(const char *buf, int len) {
 		hdr->orig_len = len + sizeof(radiotap_hdr);
 		offset += sizeof(struct pcap_hdr);
 
+		uint8_t rate = 12;
+		pmt::pmt_t dict = pmt::car(pdu);
+
+		pmt::pmt_t encoding = pmt::dict_ref(dict, pmt::mp("encoding"), pmt::PMT_NIL);
+		if(pmt::is_uint64(encoding)) {
+			rate = encoding_to_rate(pmt::to_uint64(encoding));
+		}
+
 		radiotap_hdr *rhdr = reinterpret_cast<radiotap_hdr*>(d_msg + offset);
 		rhdr->version     = 0;
 		rhdr->hdr_length  = sizeof(radiotap_hdr);
 		rhdr->bitmap      = 0x0000086e;
 		rhdr->flags       = 0;
-		rhdr->rate        = 12;
+		rhdr->rate        = rate;
 		rhdr->channel     = 178;
 		rhdr->signal      = 42;
 		rhdr->noise       = 23;
@@ -111,6 +120,29 @@ wireshark_connector_impl::copy_message(const char *buf, int len) {
 	d_msg_len = offset + len;
 }
 
+uint8_t
+wireshark_connector_impl::encoding_to_rate(uint64_t encoding) {
+
+	switch(encoding) {
+	case 0:
+		return  6 * 2;
+	case 1:
+		return  9 * 2;
+	case 2:
+		return 12 * 2;
+	case 3:
+		return 18 * 2;
+	case 4:
+		return 24 * 2;
+	case 5:
+		return 36 * 2;
+	case 6:
+		return 48 * 2;
+	case 7:
+		return 54 * 2;
+	}
+}
+
 int
 wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
                 gr_vector_const_void_star& input_items,
@@ -124,18 +156,13 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 		if(pmt::is_eof_object(msg)) {
 			dout << "WIRESHARK: exiting" << std::endl;
 			return -1;
-		} else if(pmt::is_blob(msg)) {
-			dout << "WIRESHARK: received new message" << std::endl;
-			dout << "message length " << pmt::blob_length(msg) << std::endl;
-
-			copy_message((const char*)pmt::blob_data(msg), pmt::blob_length(msg));
-			break;
 		} else if(pmt::is_pair(msg)) {
-			pmt::pmt_t blob = pmt::cdr(msg);
 			dout << "WIRESHARK: received new message" << std::endl;
-			dout << "message length " << pmt::blob_length(blob) << std::endl;
-			copy_message((const char*)pmt::blob_data(blob), pmt::blob_length(blob));
+			dout << "message length " << pmt::blob_length(pmt::cdr(msg)) << std::endl;
+			handle_pdu(msg);
 			break;
+		} else {
+			throw std::invalid_argument("wireshark connector expects PDUs");
 		}
 	}
 
