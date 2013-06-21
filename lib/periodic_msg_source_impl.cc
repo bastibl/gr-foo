@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#include <foo/periodic_msg_source.h>
+#include "periodic_msg_source_impl.h"
 
 #include <gnuradio/io_signature.h>
 #include <gnuradio/block_detail.h>
@@ -22,13 +22,10 @@
 
 using namespace gr::foo;
 
-class periodic_msg_source_impl : public periodic_msg_source {
-
 #define dout d_debug && std::cout
 
-public:
-
-periodic_msg_source_impl(pmt::pmt_t msg, float interval, int num_msg, bool debug) :
+periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
+			float interval, int num_msg, bool debug) :
 		block("periodic_msg_source",
 				gr::io_signature::make(0, 0, 0),
 				gr::io_signature::make(0, 0, 0)),
@@ -42,14 +39,15 @@ periodic_msg_source_impl(pmt::pmt_t msg, float interval, int num_msg, bool debug
 	d_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&periodic_msg_source_impl::run, this, this)));
 }
 
-~periodic_msg_source_impl() {
+periodic_msg_source_impl::~periodic_msg_source_impl() {
 	d_finished = true;
 	d_thread->interrupt();
 	d_thread->join();
 }
 
 
-void run(periodic_msg_source_impl *instance) {
+void
+periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 
 	// flow graph startup delay
 	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
@@ -74,16 +72,6 @@ void run(periodic_msg_source_impl *instance) {
 	dout << "stopping msg source" << std::endl;
 	message_port_pub(pmt::mp("out"), pmt::PMT_EOF);
 }
-
-private:
-	int d_num_msg;
-	bool d_debug;
-	bool d_finished;
-	float d_interval;
-	pmt::pmt_t d_msg;
-	boost::shared_ptr<boost::thread> d_thread;
-
-};
 
 periodic_msg_source::sptr
 periodic_msg_source::make(pmt::pmt_t msg, float interval, int num_msg, bool debug) {
