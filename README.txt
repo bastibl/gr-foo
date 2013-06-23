@@ -64,14 +64,7 @@ This block sends messages at regular intervals  much like the message strobe blo
 mainline GNU Radio. With this block you can in addition configure the number of
 packets that are sent. When all normal messages are sent, the blocks sends a final
 PMT_EOF message to indicate that it is done.
-
-I used this block for performance tests with no-GUI flow graphs. This way it is
-possible to shout down no-GUI flow graphs with message blocks. As far as I know,
-this is not possible with mainline GNU Radio. For that reason, I created a patch
-that checks if the block is done after a message was handled. See
-
-https://github.com/bastibl/gnuradio/commit/75a22cb8c10d867a68c8849bf56a0aa3906df266
-
+I used this block for automated performance tests with no-GUI flow graphs.
 
 
 ### Dependencies
