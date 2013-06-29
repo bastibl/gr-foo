@@ -81,7 +81,7 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 		pmt::pmt_t encoding = pmt::dict_ref(dict, pmt::mp("encoding"), pmt::PMT_NIL);//if encoding(key) exists in dictionary return the value else retur PMT_NIL
 		if(pmt::is_uint64(encoding)) {//if encoding is an uint 64 number
 			rate = encoding_to_rate(pmt::to_uint64(encoding));//see the function below
-		}
+		}//function is taking the encoding values
 
 		// radiotap header
 		radiotap_hdr *rhdr = reinterpret_cast<radiotap_hdr*>(d_msg + offset);//again type casting
@@ -123,6 +123,7 @@ wireshark_connector_impl::encoding_to_rate(uint64_t encoding) {
 
 	// rates in radiotab rate field
 	// are in 0.5 Mbit/s steps
+	// look up table, pass a parameter and its 64 bits, 8 bytes, get this value in u_int8, encoding scheme as 64 bit getback 8 bytes
 	switch(encoding) {
 	case 0:
 		return  6 * 2;
