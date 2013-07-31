@@ -57,13 +57,21 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 	struct timeval t;
 	gettimeofday(&t, NULL);
 
-	std::size_t len = pmt::blob_length(pmt::cdr(pdu));
 	const char *buf = reinterpret_cast<const char*>(pmt::blob_data(pmt::cdr(pdu)));
+	std::size_t len = pmt::blob_length(pmt::cdr(pdu));
 	std::size_t offset = 0;
 
 	switch(d_link) {
 
 	case WIFI: {
+
+		// if crc is included ignore last 4 bytes
+		pmt::pmt_t dict = pmt::car(pdu);
+		pmt::pmt_t crc_inc = pmt::dict_ref(dict, pmt::mp("crc_included"), pmt::PMT_NIL);
+		if(pmt::is_bool(crc_inc) && pmt::is_true(crc_inc)) {
+			len -= 4;
+		}
+
 		// pcap header
 		d_msg = reinterpret_cast<char*>(std::malloc(
 				len + sizeof(radiotap_hdr) + sizeof(pcap_hdr)));
@@ -77,7 +85,6 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 
 		// check if rate is attached
 		uint8_t rate = 12;
-		pmt::pmt_t dict = pmt::car(pdu);
 		pmt::pmt_t encoding = pmt::dict_ref(dict, pmt::mp("encoding"), pmt::PMT_NIL);
 		if(pmt::is_uint64(encoding)) {
 			rate = encoding_to_rate(pmt::to_uint64(encoding));
