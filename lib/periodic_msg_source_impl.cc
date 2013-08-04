@@ -69,6 +69,9 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 		boost::this_thread::sleep(boost::posix_time::milliseconds(d_interval));
 	} 
 
+	// delay eof a bit
+	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+
 	dout << "stopping msg source" << std::endl;
 	message_port_pub(pmt::mp("out"), pmt::PMT_EOF);
 }
