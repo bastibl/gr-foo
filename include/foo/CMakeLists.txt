@@ -27,5 +27,6 @@ install(FILES
 	packet_pad.h
 	periodic_msg_source.h
 	wireshark_connector.h
+	rtt_measure.h
 	DESTINATION include/foo
 )

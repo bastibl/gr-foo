@@ -31,6 +31,7 @@ list(APPEND foo_sources
     packet_pad_impl.cc
     periodic_msg_source_impl.cc
     wireshark_connector_impl.cc
+    rtt_measure_impl.cc
 )
 
 add_library(gnuradio-foo SHARED ${foo_sources})
