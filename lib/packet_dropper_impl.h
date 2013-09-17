@@ -19,6 +19,7 @@
 #define INCLUDED_FOO_PACKET_DROPPER_IMPL_H
 
 #include <foo/packet_dropper.h>
+#include <random>
 
 namespace gr {
 namespace foo {
