@@ -35,7 +35,7 @@ list(APPEND foo_sources
 )
 
 add_library(gnuradio-foo SHARED ${foo_sources})
-target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES})
+target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_PMT_LIBRARIES})
 set_target_properties(gnuradio-foo PROPERTIES DEFINE_SYMBOL "gnuradio_foo_EXPORTS")
 
 ########################################################################
@@ -64,6 +64,7 @@ add_executable(test-foo ${test_foo_sources})
 target_link_libraries(
   test-foo
   ${GNURADIO_RUNTIME_LIBRARIES}
+  ${GNURADIO_PMT_LIBRARIES}
   ${Boost_LIBRARIES}
   ${CPPUNIT_LIBRARIES}
   gnuradio-foo
