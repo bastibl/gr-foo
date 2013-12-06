@@ -31,6 +31,8 @@ namespace foo {
 			void add_sob(uint64_t item);
 
 			bool d_debug;
+			bool d_delay;
+			double d_delay_sec;
 
 			int d_pad_front;
 			int d_pad_tail;
@@ -39,8 +41,8 @@ namespace foo {
 			bool d_eob;
 
 		public:
-			packet_pad_impl(bool debug, unsigned int pad_front,
-					unsigned int pad_tail);
+			packet_pad_impl(bool debug, bool delay, double delay_sec,
+					unsigned int pad_front, unsigned int pad_tail);
 
 			~packet_pad_impl();
 

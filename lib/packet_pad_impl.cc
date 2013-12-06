@@ -18,19 +18,24 @@
 
 #include <gnuradio/io_signature.h>
 #include <iostream>
+#include <sys/time.h>
+#include <uhd/types/time_spec.hpp>
 
 using namespace gr::foo;
 
 #define dout d_debug && std::cout
 
-packet_pad_impl::packet_pad_impl(bool debug, unsigned int pad_front, unsigned int pad_tail) : block("packet_pad",
+packet_pad_impl::packet_pad_impl(bool debug, bool delay, double delay_sec,
+		unsigned int pad_front, unsigned int pad_tail) : block("packet_pad",
 			gr::io_signature::make(1, 1, sizeof(gr_complex)),
 			gr::io_signature::make(1, 1, sizeof(gr_complex))),
 			d_debug(debug),
 			d_pad_front(pad_front),
 			d_pad_tail(pad_tail),
 			d_pad(0),
-			d_eob(false) {
+			d_eob(false),
+			d_delay(delay),
+			d_delay_sec(delay_sec) {
 
 	set_relative_rate(1);
 	set_tag_propagation_policy(block::TPP_DONT);
@@ -47,6 +52,20 @@ packet_pad_impl::add_sob(uint64_t item) {
 	static const pmt::pmt_t value = pmt::PMT_T;
 	static const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
 	add_item_tag(0, item, sob_key, value, srcid);
+
+	if(d_delay) {
+		static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
+		struct timeval t;
+		gettimeofday(&t, NULL);
+		uhd::time_spec_t now = uhd::time_spec_t(t.tv_sec + t.tv_usec / 1000000.0)
+			+ uhd::time_spec_t(d_delay_sec);
+
+		const pmt::pmt_t time_value = pmt::make_tuple(
+			pmt::from_uint64(now.get_full_secs()),
+			pmt::from_double(now.get_frac_secs())
+		);
+		add_item_tag(0, item, time_key, time_value, srcid);
+	}
 }
 
 void
@@ -159,6 +178,6 @@ packet_pad_impl::forecast (int noutput_items, gr_vector_int &ninput_items_requir
 }
 
 packet_pad::sptr
-packet_pad::make(bool debug, unsigned int pad_front, unsigned int pad_tail) {
-	return gnuradio::get_initial_sptr(new packet_pad_impl(debug, pad_front, pad_tail));
+packet_pad::make(bool debug, bool delay, double delay_sec, unsigned int pad_front, unsigned int pad_tail) {
+	return gnuradio::get_initial_sptr(new packet_pad_impl(debug, delay, delay_sec, pad_front, pad_tail));
 }
