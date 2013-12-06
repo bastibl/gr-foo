@@ -22,18 +22,23 @@ This blocks outputs PDUs in the PCAP format which is supported by all common
 network monitoring applications. Some examples are Wireshark, Tshark, and
 tcpdump. Currently, it supports WiFi packets with Radiotap header and ZigBee.
 
-Since GNU Radio File Sinks have hard-coded open flags that include O_TRUNC one
-can not open Linux pipes. For that reason, it is not possible to monitor traffic
-live by connection Wireshark to a pipe. However, opening the file and
-investigating the traffic offline works fine.
-
-I made a patch that adds an append option to the File Sink. With this patch you
-can also open pipes. If you are interested see:
-https://github.com/bastibl/gnuradio/
-
 For further information about Radiotap, PCAP, and Wireshark see:
 http://www.radiotap.org/
 http://www.wireshark.org/
+
+
+
+### Packet Pad
+
+Adds a configurable number of zeros before and after a burst. The burst has to
+be started with an tx_sob, and ended with a tx_eob tag. From time to time I had
+issues when I did not pad the sample stream. This block helps to investigate
+that. It is also handy for loopback testing when there is no continues sample
+stream. Furthermore, this block can add a tx_time tag to every burst that lies
+a configurable number of seconds in the future. This is handy to buffer the
+sample stream for a short time to avoid underruns during the transmission,
+which lead to corrupted signals. You have to set the sync option to 'PC source'
+for this feature.
 
 
 
@@ -55,16 +60,6 @@ length given in the tag.
 
 Drops a configurable percentage of messages. I used it to test protocol logic
 like ACKs, retransmission and stuff.
-
-
-
-### Packet Pad
-
-Adds a configurable number of zeros before and after a burst. The burst has to
-be started with an tx_sob, and ended with a tx_eob tag. From time to time I had
-issues when I did not pad the sample stream. This block helps to investigate
-that. It is also handy for loopback testing when there is no continues sample
-stream.
 
 
 
