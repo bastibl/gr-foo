@@ -43,6 +43,11 @@ if(NOT WIN32)
     add_definitions(-std=c++0x)
 endif()
 
+find_package(UHD)
+if(NOT UHD_FOUND)
+    message(FATAL_ERROR "UHD library not found.")
+endif()
+
 ########################################################################
 # Find boost
 ########################################################################

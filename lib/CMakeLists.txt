@@ -22,8 +22,14 @@
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
 
-include_directories(${Boost_INCLUDE_DIR})
-link_directories(${Boost_LIBRARY_DIRS})
+include_directories(
+    ${Boost_INCLUDE_DIR}
+    ${UHD_INCLUDE_DIRS}
+)
+link_directories(
+    ${Boost_LIBRARY_DIRS}
+    ${UHD_LIBRARY_DIRS}
+)
 
 list(APPEND foo_sources
     burst_tagger_impl.cc
@@ -35,7 +41,7 @@ list(APPEND foo_sources
 )
 
 add_library(gnuradio-foo SHARED ${foo_sources})
-target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_PMT_LIBRARIES} uhd)
+target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_PMT_LIBRARIES} ${UHD_LIBRARIES})
 set_target_properties(gnuradio-foo PROPERTIES DEFINE_SYMBOL "gnuradio_foo_EXPORTS")
 
 ########################################################################
