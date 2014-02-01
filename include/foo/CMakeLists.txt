@@ -25,6 +25,7 @@ install(FILES
 	burst_tagger.h
 	packet_dropper.h
 	packet_pad.h
+	packet_pad2.h
 	periodic_msg_source.h
 	wireshark_connector.h
 	rtt_measure.h

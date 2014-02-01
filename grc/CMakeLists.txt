@@ -21,6 +21,7 @@ install(FILES
 	foo_burst_tagger.xml
 	foo_packet_dropper.xml
 	foo_packet_pad.xml
+	foo_packet_pad2.xml
 	foo_periodic_msg_source.xml
 	foo_rtt_measure.xml
 	foo_wireshark_connector.xml
