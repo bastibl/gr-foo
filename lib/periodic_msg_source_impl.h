@@ -15,7 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 #ifndef INCLUDED_FOO_PERIODIC_MSG_SOURCE_IMPL_H
-#define INCLUDED_FOO_PERIODIC_MSG_SOURCE_IMPLH
+#define INCLUDED_FOO_PERIODIC_MSG_SOURCE_IMPL_H
 
 #include <foo/periodic_msg_source.h>
 
