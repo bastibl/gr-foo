@@ -45,6 +45,14 @@ add_library(gnuradio-foo SHARED ${foo_sources})
 target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_PMT_LIBRARIES} ${UHD_LIBRARIES})
 set_target_properties(gnuradio-foo PROPERTIES DEFINE_SYMBOL "gnuradio_foo_EXPORTS")
 
+
+if(APPLE)
+    set_target_properties(gnuradio-foo PROPERTIES
+        INSTALL_NAME_DIR "${CMAKE_INSTALL_PREFIX}/lib"
+    )
+endif(APPLE)
+
+
 ########################################################################
 # Install built library files
 ########################################################################
