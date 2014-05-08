@@ -78,6 +78,14 @@ int work (int noutput_items, gr_vector_int& ninput_items,
 		add_item_tag(0, nitems_written(0), time_key, time_value, src);
 	}
 
+	std::vector<gr::tag_t> tags;
+	get_tags_in_range(tags, 0, nitems_read(0), nitems_read(0) + ninput_items[0]);
+	for (size_t i = 0; i < tags.size(); i++) {
+		add_item_tag(0, nitems_written(0),
+		tags[i].key,
+		tags[i].value);
+	}
+
 	return produced;
 }
 
