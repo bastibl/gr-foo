@@ -58,11 +58,7 @@ int work (int noutput_items, gr_vector_int& ninput_items,
 
 
 	int produced = ninput_items[0] + d_pad_front + d_pad_tail;
-	const pmt::pmt_t value = pmt::PMT_T;
 	const pmt::pmt_t src = pmt::string_to_symbol(alias());
-
-	add_item_tag(0, nitems_written(0), pmt::mp("tx_sob"), value, src);
-	add_item_tag(0, nitems_written(0) + produced - 1, pmt::mp("tx_eob"), value, src);
 
 	if(d_delay) {
 		static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
