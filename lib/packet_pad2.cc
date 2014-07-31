@@ -52,7 +52,7 @@ int work (int noutput_items, gr_vector_int& ninput_items,
 	const gr_complex *in = (const gr_complex*)input_items[0];
 	gr_complex *out = (gr_complex*)output_items[0];
 
-	std::memset(out, 0x00, sizeof(gr_complex) * ninput_items[0] + d_pad_front + d_pad_tail);
+	std::memset(out, 0x00, sizeof(gr_complex) * (ninput_items[0] + d_pad_front + d_pad_tail));
 
 	std::memcpy(out + d_pad_front, in, sizeof(gr_complex) * ninput_items[0]);
 
