@@ -33,9 +33,13 @@ periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
 		d_num_msg(num_msg),
 		d_interval(interval),
 		d_debug(debug),
-       		d_finished(false) {
+		d_finished(false) {
 
 	message_port_register_out(pmt::mp("out"));
+
+	message_port_register_in(pmt::mp("eof in"));
+	set_msg_handler(pmt::mp("eof in"), boost::bind(&periodic_msg_source_impl::eof_in, this, _1));
+
 	d_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&periodic_msg_source_impl::run, this, this)));
 }
 
@@ -45,10 +49,18 @@ periodic_msg_source_impl::~periodic_msg_source_impl() {
 	d_thread->join();
 }
 
+void
+periodic_msg_source_impl::eof_in (pmt::pmt_t msg) {
+	if(pmt::is_eof_object(msg)) {
+		detail().get()->set_done(true);
+		return;
+	} else {
+		dout << "non EOF message at eof port!" << std::endl;
+	}
+}
 
 void
 periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
-
 	// flow graph startup delay
 	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 

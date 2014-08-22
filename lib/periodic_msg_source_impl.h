@@ -25,6 +25,7 @@ namespace foo {
 	class periodic_msg_source_impl : public periodic_msg_source {
 		private:
 			void run(periodic_msg_source_impl *instance);
+			void eof_in(pmt::pmt_t msg);
 
 			int d_num_msg;
 			bool d_debug;
