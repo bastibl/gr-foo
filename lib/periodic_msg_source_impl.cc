@@ -30,7 +30,8 @@ periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
 				gr::io_signature::make(0, 0, 0),
 				gr::io_signature::make(0, 0, 0)),
 		d_msg(msg),
-		d_num_msg(num_msg),
+		d_nmsg_total(num_msg),
+		d_nmsg_left(num_msg),
 		d_interval(interval),
 		d_debug(debug),
 		d_finished(false) {
@@ -40,19 +41,27 @@ periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
 	message_port_register_in(pmt::mp("eof in"));
 	set_msg_handler(pmt::mp("eof in"), boost::bind(&periodic_msg_source_impl::eof_in, this, _1));
 
-	d_thread = boost::shared_ptr<boost::thread>(new boost::thread(boost::bind(&periodic_msg_source_impl::run, this, this)));
+	d_thread = new boost::thread(boost::bind(&periodic_msg_source_impl::run, this, this));
 }
 
 periodic_msg_source_impl::~periodic_msg_source_impl() {
+	gr::thread::scoped_lock(d_mutex);
+
 	d_finished = true;
 	d_thread->interrupt();
 	d_thread->join();
+	delete d_thread;
 }
 
 void
 periodic_msg_source_impl::eof_in (pmt::pmt_t msg) {
+
+	std::cout << "EOF IN CALLED" << std::endl;
+
 	if(pmt::is_eof_object(msg)) {
 		detail().get()->set_done(true);
+		dout << "stopping msg source" << std::endl;
+		message_port_pub(pmt::mp("out"), pmt::PMT_EOF);
 		return;
 	} else {
 		dout << "non EOF message at eof port!" << std::endl;
@@ -61,31 +70,100 @@ periodic_msg_source_impl::eof_in (pmt::pmt_t msg) {
 
 void
 periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
+
+	try {
+
 	// flow graph startup delay
 	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 
-	while(!d_finished && d_num_msg) {
+	std::cout << "starting thread" << std::endl;
 
-		dout << "number of messages left: " << d_num_msg << std::endl;
+	while(1) {
+		std::cout << "in while loop" << std::endl;
+		float delay;
+		{
+			std::cout << "in scope" << std::endl;
+			gr::thread::scoped_lock(d_mutex);
+			std::cout << "got lock" << std::endl;
+			if(d_finished || !d_nmsg_left) {
+				d_finished = true;
+				break;
+			}
 
-		message_port_pub( pmt::mp("out"), d_msg );
+			dout << "number of messages left: " << d_nmsg_left << std::endl;
 
-		if(d_num_msg > 0) {
-			d_num_msg--;
+			message_port_pub( pmt::mp("out"), d_msg );
+
+			if(d_nmsg_left > 0) {
+				d_nmsg_left--;
+			}
+			
+			delay = d_interval;
 		}
-
-		if(!d_num_msg) {
-			break;
-		}
-
-		boost::this_thread::sleep(boost::posix_time::milliseconds(d_interval));
+		boost::this_thread::sleep(boost::posix_time::milliseconds(delay));
 	} 
 
-	// delay eof a bit
-	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+	} catch(boost::thread_interrupted) {
+		std::cout << "interrupted start" << std::endl;
+		gr::thread::scoped_lock(d_mutex);
+		d_finished = true;
+		std::cout << "interrupted end" << std::endl;
+	}
+}
 
-	dout << "stopping msg source" << std::endl;
-	message_port_pub(pmt::mp("out"), pmt::PMT_EOF);
+void
+periodic_msg_source_impl::set_nmsg(int nmsg) {
+	gr::thread::scoped_lock(d_mutex);
+	d_nmsg_total = nmsg;
+}
+
+int
+periodic_msg_source_impl::get_nmsg() {
+	gr::thread::scoped_lock(d_mutex);
+	return d_nmsg_total;
+}
+
+void
+periodic_msg_source_impl::set_delay(float delay) {
+	gr::thread::scoped_lock(d_mutex);
+	d_interval = delay;
+}
+
+float
+periodic_msg_source_impl::get_delay() {
+	gr::thread::scoped_lock(d_mutex);
+	return d_interval;
+}
+
+
+void
+periodic_msg_source_impl::start_tx() {
+	gr::thread::scoped_lock(d_mutex);
+
+	if(is_running()) return;
+
+	d_nmsg_left = d_nmsg_total;
+	d_finished = false;
+	d_thread->join();
+	delete d_thread;
+
+	d_thread = new boost::thread(boost::bind(&periodic_msg_source_impl::run, this, this));
+}
+
+void
+periodic_msg_source_impl::stop_tx() {
+	d_thread->interrupt();
+}
+
+bool
+periodic_msg_source_impl::is_running() {
+	return !d_finished;
+}
+
+uint32_t
+periodic_msg_source_impl::n_sent() {
+	gr::thread::scoped_lock(d_mutex);
+	return d_nmsg_total - d_nmsg_left;
 }
 
 periodic_msg_source::sptr

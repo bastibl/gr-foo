@@ -27,17 +27,30 @@ namespace foo {
 			void run(periodic_msg_source_impl *instance);
 			void eof_in(pmt::pmt_t msg);
 
-			int d_num_msg;
+			int d_nmsg_total;
+			int d_nmsg_left;
 			bool d_debug;
 			bool d_finished;
 			float d_interval;
 			pmt::pmt_t d_msg;
-			boost::shared_ptr<boost::thread> d_thread;
+			boost::thread *d_thread;
+			gr::thread::mutex d_mutex;
 
 		public:
 			periodic_msg_source_impl(pmt::pmt_t msg,
 					float interval, int num_msg, bool debug);
 			virtual ~periodic_msg_source_impl();
+
+			void set_nmsg(int nmsg);
+			int get_nmsg();
+
+			void set_delay(float delay);
+			float get_delay();
+
+			void start_tx();
+			void stop_tx();
+			bool is_running();
+			uint32_t n_sent();
 
 	};
 

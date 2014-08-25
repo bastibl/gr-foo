@@ -30,6 +30,16 @@ public:
 	typedef boost::shared_ptr<periodic_msg_source> sptr;
 	static sptr make(pmt::pmt_t msg, float interval, int num_msg = -1, bool debug = false);
 
+	virtual void set_nmsg(int nmsg) = 0;
+	virtual int get_nmsg() = 0;
+
+	virtual void set_delay(float delay) = 0;
+	virtual float get_delay() = 0;
+
+	virtual void start_tx() = 0;
+	virtual void stop_tx() = 0;
+	virtual bool is_running() = 0;
+	virtual uint32_t n_sent() = 0;
 };
 
 }  // namespace foo
