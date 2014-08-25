@@ -50,7 +50,6 @@ namespace foo {
 			void start_tx();
 			void stop_tx();
 			bool is_running();
-			uint32_t n_sent();
 
 	};
 

@@ -160,12 +160,6 @@ periodic_msg_source_impl::is_running() {
 	return !d_finished;
 }
 
-uint32_t
-periodic_msg_source_impl::n_sent() {
-	gr::thread::scoped_lock(d_mutex);
-	return d_nmsg_total - d_nmsg_left;
-}
-
 periodic_msg_source::sptr
 periodic_msg_source::make(pmt::pmt_t msg, float interval, int num_msg, bool debug) {
 	return gnuradio::get_initial_sptr(new periodic_msg_source_impl(msg, interval, num_msg, debug));

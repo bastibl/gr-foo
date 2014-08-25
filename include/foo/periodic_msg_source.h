@@ -39,7 +39,6 @@ public:
 	virtual void start_tx() = 0;
 	virtual void stop_tx() = 0;
 	virtual bool is_running() = 0;
-	virtual uint32_t n_sent() = 0;
 };
 
 }  // namespace foo
