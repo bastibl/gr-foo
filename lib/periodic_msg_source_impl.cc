@@ -56,15 +56,13 @@ periodic_msg_source_impl::~periodic_msg_source_impl() {
 void
 periodic_msg_source_impl::eof_in (pmt::pmt_t msg) {
 
-	std::cout << "EOF IN CALLED" << std::endl;
-
 	if(pmt::is_eof_object(msg)) {
 		detail().get()->set_done(true);
-		dout << "stopping msg source" << std::endl;
+		dout << "PMS: stopping msg source" << std::endl;
 		message_port_pub(pmt::mp("out"), pmt::PMT_EOF);
 		return;
 	} else {
-		dout << "non EOF message at eof port!" << std::endl;
+		dout << "PMS: non EOF message at eof port!" << std::endl;
 	}
 }
 
@@ -76,21 +74,16 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 	// flow graph startup delay
 	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 
-	std::cout << "starting thread" << std::endl;
-
 	while(1) {
-		std::cout << "in while loop" << std::endl;
 		float delay;
 		{
-			std::cout << "in scope" << std::endl;
 			gr::thread::scoped_lock(d_mutex);
-			std::cout << "got lock" << std::endl;
 			if(d_finished || !d_nmsg_left) {
 				d_finished = true;
 				break;
 			}
 
-			dout << "number of messages left: " << d_nmsg_left << std::endl;
+			dout << "PMS: number of messages left: " << d_nmsg_left << std::endl;
 
 			message_port_pub( pmt::mp("out"), d_msg );
 
@@ -104,10 +97,9 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 	} 
 
 	} catch(boost::thread_interrupted) {
-		std::cout << "interrupted start" << std::endl;
 		gr::thread::scoped_lock(d_mutex);
+		dout << "PMS: thread interrupted" << std::endl;
 		d_finished = true;
-		std::cout << "interrupted end" << std::endl;
 	}
 }
 
