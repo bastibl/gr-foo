@@ -34,7 +34,8 @@ periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
 		d_nmsg_left(num_msg),
 		d_interval(interval),
 		d_debug(debug),
-		d_finished(false) {
+		d_finished(false),
+		d_quit(quit) {
 
 	message_port_register_out(pmt::mp("out"));
 
