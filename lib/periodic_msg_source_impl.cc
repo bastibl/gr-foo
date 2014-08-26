@@ -25,7 +25,7 @@ using namespace gr::foo;
 #define dout d_debug && std::cout
 
 periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
-			float interval, int num_msg, bool debug) :
+			float interval, int num_msg, bool quit, bool debug) :
 		block("periodic_msg_source",
 				gr::io_signature::make(0, 0, 0),
 				gr::io_signature::make(0, 0, 0)),
@@ -38,9 +38,6 @@ periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
 
 	message_port_register_out(pmt::mp("out"));
 
-	message_port_register_in(pmt::mp("eof in"));
-	set_msg_handler(pmt::mp("eof in"), boost::bind(&periodic_msg_source_impl::eof_in, this, _1));
-
 	d_thread = new boost::thread(boost::bind(&periodic_msg_source_impl::run, this, this));
 }
 
@@ -51,19 +48,6 @@ periodic_msg_source_impl::~periodic_msg_source_impl() {
 	d_thread->interrupt();
 	d_thread->join();
 	delete d_thread;
-}
-
-void
-periodic_msg_source_impl::eof_in (pmt::pmt_t msg) {
-
-	if(pmt::is_eof_object(msg)) {
-		detail().get()->set_done(true);
-		dout << "PMS: stopping msg source" << std::endl;
-		message_port_pub(pmt::mp("out"), pmt::PMT_EOF);
-		return;
-	} else {
-		dout << "PMS: non EOF message at eof port!" << std::endl;
-	}
 }
 
 void
@@ -80,6 +64,7 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 			gr::thread::scoped_lock(d_mutex);
 			if(d_finished || !d_nmsg_left) {
 				d_finished = true;
+				if(d_quit) post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
 				break;
 			}
 
@@ -100,6 +85,7 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 		gr::thread::scoped_lock(d_mutex);
 		dout << "PMS: thread interrupted" << std::endl;
 		d_finished = true;
+		if(d_quit) post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
 	}
 }
 
@@ -153,7 +139,7 @@ periodic_msg_source_impl::is_running() {
 }
 
 periodic_msg_source::sptr
-periodic_msg_source::make(pmt::pmt_t msg, float interval, int num_msg, bool debug) {
-	return gnuradio::get_initial_sptr(new periodic_msg_source_impl(msg, interval, num_msg, debug));
+periodic_msg_source::make(pmt::pmt_t msg, float interval, int num_msg, bool quit, bool debug) {
+	return gnuradio::get_initial_sptr(new periodic_msg_source_impl(msg, interval, num_msg, quit, debug));
 }
 
