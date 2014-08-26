@@ -65,7 +65,10 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 			gr::thread::scoped_lock(d_mutex);
 			if(d_finished || !d_nmsg_left) {
 				d_finished = true;
-				if(d_quit) post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
+				if(d_quit) {
+					boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+					post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
+				}
 				break;
 			}
 
@@ -86,7 +89,10 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 		gr::thread::scoped_lock(d_mutex);
 		dout << "PMS: thread interrupted" << std::endl;
 		d_finished = true;
-		if(d_quit) post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
+		if(d_quit) {
+			boost::this_thread::sleep(boost::posix_time::milliseconds(500));
+			post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
+		}
 	}
 }
 
