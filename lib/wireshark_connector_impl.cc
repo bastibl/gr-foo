@@ -17,6 +17,7 @@
 #include "wireshark_connector_impl.h"
 #include <foo/wireshark_connector.h>
 #include <gnuradio/io_signature.h>
+#include <gnuradio/block_detail.h>
 
 #include <iostream>
 #include <iomanip>
@@ -160,8 +161,12 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 
 	gr_complex *out = (gr_complex*)output_items[0];
 
-	while(!d_msg_len) {
-		pmt::pmt_t msg(delete_head_blocking(pmt::mp("in")));
+	if(!d_msg_len) {
+		pmt::pmt_t msg(delete_head_blocking(pmt::mp("in"), 100));
+
+		if(!msg) {
+			return 0;
+		}
 
 		if(pmt::is_eof_object(msg)) {
 			dout << "WIRESHARK: exiting" << std::endl;
@@ -170,7 +175,6 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 			dout << "WIRESHARK: received new message" << std::endl;
 			dout << "message length " << pmt::blob_length(pmt::cdr(msg)) << std::endl;
 			handle_pdu(msg);
-			break;
 		} else {
 			throw std::invalid_argument("wireshark connector expects PDUs");
 		}
