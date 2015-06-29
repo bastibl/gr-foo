@@ -74,7 +74,7 @@ I used this block for automated performance tests with no-GUI flow graphs.
 
 ### Dependencies
 
-GNU Radio v3.7
+GNU Radio v3.7.6
 
 
 ### Installation
