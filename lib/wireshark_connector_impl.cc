@@ -162,7 +162,11 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 	gr_complex *out = (gr_complex*)output_items[0];
 
 	if(!d_msg_len) {
+#ifdef GR_FOO_NEW_API
 		pmt::pmt_t msg(delete_head_blocking(pmt::mp("in"), 100));
+#else
+		pmt::pmt_t msg(delete_head_blocking(pmt::mp("in")));
+#endif
 
 		if(!msg) {
 			return 0;
