@@ -73,8 +73,7 @@ burst_tagger_impl::work(int noutput_items,
 		std::vector<gr::tag_t> tags;
 		const uint64_t nread = nitems_read(0);
 
-		get_tags_in_range(tags, 0, nread, nread + noutput_items - 1,
-			d_tag_name);
+		get_tags_in_range(tags, 0, nread, nread + noutput_items, d_tag_name);
 		std::sort(tags.begin(), tags.end(), tag_t::offset_compare);
 
 		// copy until the first tag
