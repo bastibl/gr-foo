@@ -180,7 +180,8 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 			dout << "message length " << pmt::blob_length(pmt::cdr(msg)) << std::endl;
 			handle_pdu(msg);
 		} else {
-			throw std::invalid_argument("wireshark connector expects PDUs");
+			dout << "WIRESHARK: ignoring message" << std::endl;
+			return 0;
 		}
 	}
 
