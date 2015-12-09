@@ -1,79 +1,78 @@
 #!/usr/bin/env python
 #
-# Copyright 2012 Free Software Foundation, Inc.
+# Copyright 2015 Bastian Bloessl <bloessl@ccs-labs.org>
 #
-# This file is part of GNU Radio
 #
-# GNU Radio is free software; you can redistribute it and/or modify
+# This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
-# the Free Software Foundation; either version 3, or (at your option)
-# any later version.
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
 #
-# GNU Radio is distributed in the hope that it will be useful,
+# This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with GNU Radio; see the file COPYING.  If not, write to
-# the Free Software Foundation, Inc., 51 Franklin Street,
-# Boston, MA 02110-1301, USA.
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import threading
-import os, sys, time
-from optparse import OptionParser
+import sys, time
 
-import Ice
-from gnuradio.ctrlport import GNURadio
+from gnuradio import gr, ctrlport
 
+class MyApp(object):
+    def __init__(self, args):
+        p = gr.prefs()
+        cp_on = p.get_bool("ControlPort", "on", False)
+        cp_edges = p.get_bool("ControlPort", "edges_list", False)
+        pcs_on = p.get_bool("PerfCounters", "on", False)
+        pcs_exported = p.get_bool("PerfCounters", "export", False)
+        if(not (pcs_on and cp_on and pcs_exported and cp_edges)):
+            print("Configuration has not turned on all of the appropriate ControlPort features:")
+            print("\t[ControlPort] on = {0}".format(cp_on))
+            print("\t[ControlPort] edges_list = {0}".format(cp_edges))
+            print("\t[PerfCounters] on = {0}".format(pcs_on))
+            print("\t[PerfCounters] export = {0}".format(pcs_exported))
+            exit(1)
 
-class monitor_gui:
-    def __init__(self, host, port, options):
+        from gnuradio.ctrlport.GNURadioControlPortClient import GNURadioControlPortClient
+        GNURadioControlPortClient(args, 'thrift', self.run)
 
-        locator = None
+    def run(self, client):
+        input_name = lambda x: x+"::avg input % full"
 
-        # Extract options into a locator
-        locator = "{0} -t:{1} -h {2} -p {3}".format(
-            options.app, options.protocol, host, port)
+        tmplist = []
+        knobs = client.getKnobs([])
+        for k in knobs:
+            propname = k.split("::")
+            blockname = propname[0]
+            keyname = propname[1]
+            if(blockname not in tmplist):
+                # only take gr_blocks (no hier_block2)
+                if(knobs.has_key(input_name(blockname))):
+                    tmplist.append(blockname)
 
+        blocks = tmplist
+        blocks.sort()
 
-        # Ice/GRCP init
-        self.comm = Ice.initialize()
-        proxy = self.comm.stringToProxy(locator)
-        self.radio = GNURadio.ControlPortPrx.checkedCast(proxy)
-        self.updateKnobs()
+        # print csv header
+        print(",".join(blocks))
 
-        while(True):
-            self.updateKnobs()
-            self.printValues()
-            time.sleep(.5)
+        knobs = map(lambda x: client.Knob("%s::reset_perf_counters" % x), blocks)
+        client.setKnobs(knobs)
 
+        # let the flow graph run for some time
+        time.sleep(30)
 
-    def updateKnobs(self):
-        self.knobs = self.radio.get([])
+        ## get work time for all blocks
+        kl = map(lambda x: "%s::total work time" % x, blocks)
+        wrk_knobs = client.getKnobs(kl)
 
+        work_times = dict(zip(
+                    map(lambda x: x.split("::")[0], wrk_knobs.keys()),
+                    map(lambda x: x.value, wrk_knobs.values())))
 
-    def printValues(self):
-        for k in self.knobs.keys():
-            (nb,k) = k.split("::", 2)
+        print(",".join(map(lambda x: str(x[1]), sorted(work_times.items()))))
 
-        keys = self.knobs.keys()
-        keys.sort()
-        for k in keys:
-            (nb,sk) = k.split("::", 2)
-            v = self.knobs[k].value
-            sv = str(v)
-            print(nb + " " + k + " " + sv)
-
-
-if __name__ == "__main__":
-    parser = OptionParser()
-    parser.add_option("-P", "--protocol", type="string", default="tcp",
-                      help="Type of protocol to use (usually tcp). [default=%default]")
-    parser.add_option("-a", "--app", type="string", default="gnuradio",
-                      help="Name of application [default=%default]")
-    (options, args) = parser.parse_args()
-
-    mg = monitor_gui(args[0], args[1], options)
-
+MyApp(sys.argv)
