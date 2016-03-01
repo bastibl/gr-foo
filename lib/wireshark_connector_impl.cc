@@ -91,6 +91,25 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 			rate = encoding_to_rate(pmt::to_uint64(encoding));
 		}
 
+		int snr = 42;
+		if(pmt::dict_has_key(dict, pmt::mp("snr"))) {
+			pmt::pmt_t s = pmt::dict_ref(dict, pmt::mp("snr"), pmt::PMT_NIL);
+			if(pmt::is_number(s)) {
+				snr = std::round(pmt::to_double(s));
+			}
+		}
+
+		uint8_t signal = 0;
+		uint8_t noise = 0;
+
+		if(snr >= 0) {
+			signal = snr;
+			noise = 0;
+		} else {
+			signal = 0;
+			noise = -1 * snr;
+		}
+
 		// radiotap header
 		radiotap_hdr *rhdr = reinterpret_cast<radiotap_hdr*>(d_msg + offset);
 		rhdr->version     = 0;
@@ -99,8 +118,8 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 		rhdr->flags       = 0;
 		rhdr->rate        = rate;
 		rhdr->channel     = 178;
-		rhdr->signal      = 42;
-		rhdr->noise       = 23;
+		rhdr->signal      = signal;
+		rhdr->noise       = noise;
 		rhdr->antenna     = 1;
 		offset += sizeof(struct radiotap_hdr);
 
