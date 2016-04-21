@@ -39,6 +39,7 @@ list(APPEND foo_sources
     periodic_msg_source_impl.cc
     wireshark_connector_impl.cc
     rtt_measure_impl.cc
+    random_periodic_msg_source_impl.cc
 )
 
 set(PACKAGE_FIND_VERSION_MAJOR 0)
