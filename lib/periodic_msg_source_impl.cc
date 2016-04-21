@@ -68,7 +68,7 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 				if(d_quit) {
 					boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 					message_port_pub( pmt::mp("out"), pmt::PMT_EOF);
-					post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::from_long(1)));
+					post(pmt::mp("system"), pmt::cons(pmt::mp("done"), pmt::PMT_T));
 				}
 				break;
 			}
