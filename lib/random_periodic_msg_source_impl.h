@@ -39,8 +39,8 @@ namespace foo {
 			boost::thread *d_thread;
 			gr::thread::mutex d_mutex;
 			boost::mt19937 d_rng;
-			boost::variate_generator< boost::mt19937, boost::uniform_int<> > d_randbytes;
 			boost::uniform_int<> d_brange;
+			boost::variate_generator< boost::mt19937, boost::uniform_int<> > d_randbytes;
 
 		public:
 			random_periodic_msg_source_impl(int msg_len,

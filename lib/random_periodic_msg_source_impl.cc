@@ -107,15 +107,14 @@ random_periodic_msg_source_impl::run(random_periodic_msg_source_impl *instance) 
 // Generate a random message
 pmt::pmt_t
 random_periodic_msg_source_impl::generate_msg() {
-	// Construct random vector of specified length
-	std::vector<unsigned char> vec(d_msg_len);
-	// Fill w/random bytes
-	for( int i=0; i<d_msg_len; i++ ) {
-		vec[i] = ((unsigned char) d_randbytes());
+	uint8_t vec[d_msg_len];
+
+	for(int i = 0; i < d_msg_len; i++) {
+		vec[i] = d_randbytes();
 	}
-	// Construct the PDU
-	pmt::pmt_t vecpmt(pmt::make_blob(&vec[0], d_msg_len));
-	return pmt::cons(pmt::PMT_NIL, vecpmt);
+
+	pmt::pmt_t blob = pmt::make_blob(vec, d_msg_len);
+	return pmt::cons(pmt::PMT_NIL, blob);
 }
 void
 random_periodic_msg_source_impl::set_nmsg(int nmsg) {
