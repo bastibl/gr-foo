@@ -25,5 +25,5 @@ install(FILES
 	foo_periodic_msg_source.xml
 	foo_rtt_measure.xml
 	foo_wireshark_connector.xml
-	DESTINATION share/gnuradio/grc/blocks
+    foo_random_periodic_msg_source.xml	DESTINATION share/gnuradio/grc/blocks
 )
