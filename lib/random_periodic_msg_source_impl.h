@@ -28,19 +28,19 @@ namespace foo {
 	class random_periodic_msg_source_impl : public random_periodic_msg_source {
 		private:
 			void run(random_periodic_msg_source_impl *instance);
-                        int d_msg_len;
+			int d_msg_len;
 			int d_nmsg_total;
 			int d_nmsg_left;
-                        unsigned int d_seed;
+			unsigned int d_seed;
 			bool d_debug;
 			bool d_quit;
 			bool d_finished;
 			float d_interval;
 			boost::thread *d_thread;
 			gr::thread::mutex d_mutex;
-                        boost::mt19937 d_rng;
-                        boost::uniform_int<> d_brange;
-                        boost::variate_generator< boost::mt19937, boost::uniform_int<> > d_randbytes;
+			boost::mt19937 d_rng;
+			boost::variate_generator< boost::mt19937, boost::uniform_int<> > d_randbytes;
+			boost::uniform_int<> d_brange;
 
 		public:
 			random_periodic_msg_source_impl(int msg_len,
@@ -56,7 +56,7 @@ namespace foo {
 
 			void start_tx();
 			void stop_tx();
-                        pmt::pmt_t generate_msg();
+			pmt::pmt_t generate_msg();
 			bool is_running();
 
 	};

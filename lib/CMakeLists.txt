@@ -34,12 +34,12 @@ link_directories(
 list(APPEND foo_sources
     burst_tagger_impl.cc
     packet_dropper_impl.cc
-    packet_pad_impl.cc
     packet_pad2.cc
+    packet_pad_impl.cc
     periodic_msg_source_impl.cc
-    wireshark_connector_impl.cc
-    rtt_measure_impl.cc
     random_periodic_msg_source_impl.cc
+    rtt_measure_impl.cc
+    wireshark_connector_impl.cc
 )
 
 set(PACKAGE_FIND_VERSION_MAJOR 0)

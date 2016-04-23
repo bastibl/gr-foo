@@ -38,10 +38,10 @@ random_periodic_msg_source_impl::random_periodic_msg_source_impl(int msg_len,
 		d_debug(debug),
 		d_finished(false),
 		d_quit(quit),
-                d_seed(static_cast<unsigned int>(seed)),
-                d_brange(0,255),
-                d_rng(seed),
-                d_randbytes(d_rng,d_brange)
+		d_seed(static_cast<unsigned int>(seed)),
+		d_brange(0,255),
+		d_rng(seed),
+		d_randbytes(d_rng,d_brange)
 {
 	message_port_register_out(pmt::mp("out"));
 
@@ -79,18 +79,18 @@ random_periodic_msg_source_impl::run(random_periodic_msg_source_impl *instance) 
 			}
 
 			dout << "PMS: number of messages left: " << d_nmsg_left << std::endl;
-                        // Generate a random message
-                        pmt::pmt_t msg = generate_msg();
+			// Generate a random message
+			pmt::pmt_t msg = generate_msg();
 			message_port_pub( pmt::mp("out"), msg);
 
 			if(d_nmsg_left > 0) {
 				d_nmsg_left--;
 			}
-			
+
 			delay = d_interval;
 		}
 		boost::this_thread::sleep(boost::posix_time::milliseconds(delay));
-	} 
+	}
 
 	} catch(boost::thread_interrupted) {
 		gr::thread::scoped_lock(d_mutex);
@@ -105,17 +105,17 @@ random_periodic_msg_source_impl::run(random_periodic_msg_source_impl *instance) 
 }
 
 // Generate a random message
-pmt::pmt_t 
-random_periodic_msg_source_impl::generate_msg(){
-   // Construct random vector of specified length
-   std::vector<unsigned char> vec(d_msg_len);
-   // Fill w/random bytes
-   for( int i=0; i<d_msg_len; i++ ){
-      vec[i] = ((unsigned char) d_randbytes());
-   }
-   // Construct the PDU
-   pmt::pmt_t vecpmt(pmt::make_blob(&vec[0], d_msg_len));
-   return pmt::cons(pmt::PMT_NIL, vecpmt);
+pmt::pmt_t
+random_periodic_msg_source_impl::generate_msg() {
+	// Construct random vector of specified length
+	std::vector<unsigned char> vec(d_msg_len);
+	// Fill w/random bytes
+	for( int i=0; i<d_msg_len; i++ ) {
+		vec[i] = ((unsigned char) d_randbytes());
+	}
+	// Construct the PDU
+	pmt::pmt_t vecpmt(pmt::make_blob(&vec[0], d_msg_len));
+	return pmt::cons(pmt::PMT_NIL, vecpmt);
 }
 void
 random_periodic_msg_source_impl::set_nmsg(int nmsg) {
@@ -168,7 +168,6 @@ random_periodic_msg_source_impl::is_running() {
 
 random_periodic_msg_source::sptr
 random_periodic_msg_source::make(int msg_len, float interval, int num_msg, 
-                                 bool quit, bool debug,int seed) {
+		bool quit, bool debug,int seed) {
 	return gnuradio::get_initial_sptr(new random_periodic_msg_source_impl(msg_len, interval, num_msg, quit, debug, seed));
 }
-

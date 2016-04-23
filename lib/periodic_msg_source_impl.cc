@@ -80,11 +80,11 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 			if(d_nmsg_left > 0) {
 				d_nmsg_left--;
 			}
-			
+
 			delay = d_interval;
 		}
 		boost::this_thread::sleep(boost::posix_time::milliseconds(delay));
-	} 
+	}
 
 	} catch(boost::thread_interrupted) {
 		gr::thread::scoped_lock(d_mutex);
@@ -151,4 +151,3 @@ periodic_msg_source::sptr
 periodic_msg_source::make(pmt::pmt_t msg, float interval, int num_msg, bool quit, bool debug) {
 	return gnuradio::get_initial_sptr(new periodic_msg_source_impl(msg, interval, num_msg, quit, debug));
 }
-

@@ -17,13 +17,6 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-install(FILES
-	foo_burst_tagger.xml
-	foo_packet_dropper.xml
-	foo_packet_pad.xml
-	foo_packet_pad2.xml
-	foo_periodic_msg_source.xml
-	foo_rtt_measure.xml
-	foo_wireshark_connector.xml
-    foo_random_periodic_msg_source.xml	DESTINATION share/gnuradio/grc/blocks
-)
+file(GLOB xml_files "*.xml")
+
+install(FILES ${xml_files} DESTINATION share/gnuradio/grc/blocks )

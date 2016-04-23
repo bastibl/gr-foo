@@ -52,8 +52,8 @@
 		<key>num</key>
 		<value>1</value>
 		<type>int</type>
-             </param>
-        <param>
+	</param>
+	<param>
 		<name>Random Seed</name>
 		<key>seed</key>
 		<value>1</value>
