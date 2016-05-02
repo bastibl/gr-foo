@@ -42,24 +42,6 @@ list(APPEND foo_sources
     wireshark_connector_impl.cc
 )
 
-set(PACKAGE_FIND_VERSION_MAJOR 0)
-include(GnuradioConfigVersion)
-
-if(${API_COMPAT} EQUAL 8)
-    message(STATUS "next branch (3.8 install), using new API")
-    add_definitions("-DGR_FOO_NEW_API")
-elseif(${MINOR_VERSION} GREATER 7)
-    message(STATUS "recent 3.7.8 install, using new API")
-    add_definitions("-DGR_FOO_NEW_API")
-elseif(${MINOR_VERSION} EQUAL 7 AND NOT ${MAINT_VERSION} STREQUAL "git")
-    message(STATUS "recent real 3.7.7 install, using new API")
-    add_definitions("-DGR_FOO_NEW_API")
-elseif(${MINOR_VERSION} EQUAL 6 AND NOT ${MAINT_VERSION} STREQUAL "git" AND ${MAINT_VERSION} GREATER 0)
-    message(STATUS "3.7.6 with maint version >= 1 install, using new API")
-    add_definitions("-DGR_FOO_NEW_API")
-else()
-    message(STATUS "using old API")
-endif()
 
 add_library(gnuradio-foo SHARED ${foo_sources})
 target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_PMT_LIBRARIES} ${UHD_LIBRARIES})
