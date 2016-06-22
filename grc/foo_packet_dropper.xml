@@ -2,7 +2,7 @@
 <block>
   <name>Packet Dropper</name>
   <key>foo_packet_dropper</key>
-  <category>Foo</category>
+  <category>[Foo]</category>
   <import>import foo</import>
   <make>foo.packet_dropper($drop_rate, $seed)</make>
   

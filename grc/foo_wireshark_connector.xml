@@ -2,7 +2,7 @@
 <block>
 	<name>Wireshark Connector</name>
 	<key>foo_wireshark_connector</key>
-	<category>Foo</category>
+	<category>[Foo]</category>
 	<import>import foo</import>
 	<make>foo.wireshark_connector($tech, $debug)</make>
 

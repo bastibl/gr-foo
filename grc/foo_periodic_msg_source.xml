@@ -3,7 +3,7 @@
 <block>
 	<name>Periodic Message Source</name>
 	<key>foo_periodic_msg_source</key>
-	<category>Foo</category>
+	<category>[Foo]</category>
 	<import>import foo</import>
 	<import>import pmt</import>
 	<make>foo.periodic_msg_source($msg, $interval, $num, $quit, $debug)</make>
