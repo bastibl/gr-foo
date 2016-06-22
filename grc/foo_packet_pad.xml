@@ -3,7 +3,7 @@
 <block>
 	<name>Packet Pad</name>
 	<key>foo_packet_pad</key>
-	<category>Foo</category>
+	<category>[Foo]</category>
 	<import>import foo</import>
 	<make>foo.packet_pad($debug, $delay, $delay_sec, $pad_front, $pad_tail)</make>
 
