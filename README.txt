@@ -16,6 +16,13 @@ https://github.com/bastibl/gr-ieee802-15-4
 
 
 
+### Development
+
+Like GNU Radio, this module uses *master* and *next* branches for development, which are supposed to be used with the corresponding GNU Radio branches.
+I recommend staying up-to-date by using the *next* branch.
+
+
+
 ### Wireshark Connector
 
 This blocks outputs PDUs in the PCAP format which is supported by all common
