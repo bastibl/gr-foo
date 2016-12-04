@@ -44,7 +44,7 @@ list(APPEND foo_sources
 
 
 add_library(gnuradio-foo SHARED ${foo_sources})
-target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_RUNTIME_LIBRARIES} ${GNURADIO_PMT_LIBRARIES} ${UHD_LIBRARIES})
+target_link_libraries(gnuradio-foo ${Boost_LIBRARIES} ${GNURADIO_ALL_LIBRARIES} ${UHD_LIBRARIES})
 set_target_properties(gnuradio-foo PROPERTIES DEFINE_SYMBOL "gnuradio_foo_EXPORTS")
 
 ########################################################################
