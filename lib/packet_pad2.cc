@@ -18,7 +18,9 @@
 
 #include <gnuradio/io_signature.h>
 #include <sys/time.h>
+#ifdef FOO_UHD
 #include <uhd/types/time_spec.hpp>
+#endif
 
 using namespace gr::foo;
 
@@ -60,6 +62,7 @@ int work (int noutput_items, gr_vector_int& ninput_items,
 	int produced = ninput_items[0] + d_pad_front + d_pad_tail;
 	const pmt::pmt_t src = pmt::string_to_symbol(alias());
 
+	#ifdef FOO_UHD
 	if(d_delay) {
 		static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
 		struct timeval t;
@@ -73,6 +76,7 @@ int work (int noutput_items, gr_vector_int& ninput_items,
 		);
 		add_item_tag(0, nitems_written(0), time_key, time_value, src);
 	}
+	#endif
 
 	std::vector<gr::tag_t> tags;
 	get_tags_in_range(tags, 0, nitems_read(0), nitems_read(0) + ninput_items[0]);

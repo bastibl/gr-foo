@@ -19,7 +19,9 @@
 #include <gnuradio/io_signature.h>
 #include <iostream>
 #include <sys/time.h>
+#ifdef FOO_UHD
 #include <uhd/types/time_spec.hpp>
+#endif
 
 using namespace gr::foo;
 
@@ -53,6 +55,7 @@ packet_pad_impl::add_sob(uint64_t item) {
 	static const pmt::pmt_t srcid = pmt::string_to_symbol(alias());
 	add_item_tag(0, item, sob_key, value, srcid);
 
+	#ifdef FOO_UHD
 	if(d_delay) {
 		static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
 		struct timeval t;
@@ -66,6 +69,7 @@ packet_pad_impl::add_sob(uint64_t item) {
 		);
 		add_item_tag(0, item, time_key, time_value, srcid);
 	}
+	#endif
 }
 
 void
