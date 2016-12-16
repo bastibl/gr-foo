@@ -45,7 +45,13 @@ endif()
 
 find_package(UHD)
 if(NOT UHD_FOUND)
-    message(FATAL_ERROR "UHD library not found.")
+    message(STATUS "UHD library not found, no support for timed TX.")
+    set(UHD_INCLUDE_DIRS "")
+    set(UHD_LIBRARY_DIRS "")
+    set(UHD_LIBRARIES "")
+else()
+    message(STATUS "UHD library found.")
+    add_definitions(-DFOO_UHD)
 endif()
 
 ########################################################################
