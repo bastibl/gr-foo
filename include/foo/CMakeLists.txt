@@ -23,6 +23,7 @@
 install(FILES
 	api.h
 	burst_tagger.h
+        channel_model.h
 	packet_dropper.h
 	packet_pad.h
 	packet_pad2.h

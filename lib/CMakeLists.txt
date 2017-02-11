@@ -33,6 +33,7 @@ link_directories(
 
 list(APPEND foo_sources
     burst_tagger_impl.cc
+    channel_model_impl.cc
     packet_dropper_impl.cc
     packet_pad2.cc
     packet_pad_impl.cc

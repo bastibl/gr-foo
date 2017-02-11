@@ -7,6 +7,7 @@
 
 %{
 #include "foo/burst_tagger.h"
+#include "foo/channel_model.h"
 #include "foo/packet_dropper.h"
 #include "foo/packet_pad.h"
 #include "foo/packet_pad2.h"
@@ -18,6 +19,7 @@
 
 
 %include "foo/burst_tagger.h"
+%include "foo/channel_model.h"
 %include "foo/packet_dropper.h"
 %include "foo/packet_pad.h"
 %include "foo/packet_pad2.h"
@@ -27,6 +29,7 @@
 %include "foo/wireshark_connector.h"
 
 GR_SWIG_BLOCK_MAGIC2(foo, burst_tagger);
+GR_SWIG_BLOCK_MAGIC2(foo, channel_model);
 GR_SWIG_BLOCK_MAGIC2(foo, packet_dropper);
 GR_SWIG_BLOCK_MAGIC2(foo, packet_pad);
 GR_SWIG_BLOCK_MAGIC2(foo, packet_pad2);
