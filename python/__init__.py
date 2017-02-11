@@ -43,6 +43,7 @@ if _RTLD_GLOBAL != 0:
 
 # import swig generated symbols into the foo namespace
 from foo_swig import *
+from selector import *
 
 # import any pure python here
 #

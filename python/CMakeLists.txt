@@ -31,6 +31,7 @@ endif()
 GR_PYTHON_INSTALL(
     FILES
     __init__.py
+    selector.py
     DESTINATION ${GR_PYTHON_DIR}/foo
 )
 
