@@ -1,3 +1,4 @@
+```
                      ____                 \
    ____ ______      / __/___  ____     \   \
   / __ `/ ___/_____/ /_/ __ \/ __ \  \  |   |
@@ -5,14 +6,15 @@
  \__, /_/        /_/  \____/\____/     /   /
 /____/                                    /
 
+```
 
 Hi!
 
 This is a collection of custom blocks that are not directly associated with a
 project. For sample applications see:
 
-https://github.com/bastibl/gr-ieee802-11
-https://github.com/bastibl/gr-ieee802-15-4
+-  https://github.com/bastibl/gr-ieee802-11
+-  https://github.com/bastibl/gr-ieee802-15-4
 
 
 
@@ -30,8 +32,9 @@ network monitoring applications. Some examples are Wireshark, Tshark, and
 tcpdump. Currently, it supports WiFi packets with Radiotap header and ZigBee.
 
 For further information about Radiotap, PCAP, and Wireshark see:
-http://www.radiotap.org/
-http://www.wireshark.org/
+
+- http://www.radiotap.org/
+- http://www.wireshark.org/
 
 
 
@@ -51,7 +54,7 @@ for this feature.
 
 ### Burst Tagger
 
-Tags a burst / packet / bunch of samples with tx_sob und tx_eob tags. This is
+Tags a burst / packet / bunch of samples with tx_sob and tx_eob tags. This is
 useful if the SDR is operating in half-duplex mode. With adding a tx_eob the
 USRP switches back to receive mode immediately. That way, direct responses like
 ACKs are not missed.
@@ -86,6 +89,7 @@ GNU Radio v3.7
 
 ### Installation
 
+```
 git clone https://github.com/bastibl/gr-foo.git
 cd gr-foo
 mkdir build
@@ -94,4 +98,5 @@ cmake ..
 make
 sudo make install
 sudo ldconfig
+``` 
 
