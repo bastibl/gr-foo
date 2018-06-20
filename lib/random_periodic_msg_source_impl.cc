@@ -27,7 +27,7 @@ using namespace gr::foo;
 #define dout d_debug && std::cout
 
 random_periodic_msg_source_impl::random_periodic_msg_source_impl(int msg_len,
-			float interval, int num_msg, bool quit, bool debug, int seed):
+			long interval, int num_msg, bool quit, bool debug, int seed):
 		block("random_periodic_msg_source",
 				gr::io_signature::make(0, 0, 0),
 				gr::io_signature::make(0, 0, 0)),
@@ -65,7 +65,7 @@ random_periodic_msg_source_impl::run(random_periodic_msg_source_impl *instance) 
 	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 
 	while(1) {
-		float delay;
+		long delay;
 		{
 			gr::thread::scoped_lock(d_mutex);
 			if(d_finished || !d_nmsg_left) {
@@ -129,12 +129,12 @@ random_periodic_msg_source_impl::get_nmsg() {
 }
 
 void
-random_periodic_msg_source_impl::set_delay(float delay) {
+random_periodic_msg_source_impl::set_delay(long delay) {
 	gr::thread::scoped_lock(d_mutex);
 	d_interval = delay;
 }
 
-float
+long
 random_periodic_msg_source_impl::get_delay() {
 	gr::thread::scoped_lock(d_mutex);
 	return d_interval;
@@ -166,7 +166,7 @@ random_periodic_msg_source_impl::is_running() {
 }
 
 random_periodic_msg_source::sptr
-random_periodic_msg_source::make(int msg_len, float interval, int num_msg, 
+random_periodic_msg_source::make(int msg_len, long interval, int num_msg, 
 		bool quit, bool debug,int seed) {
 	return gnuradio::get_initial_sptr(new random_periodic_msg_source_impl(msg_len, interval, num_msg, quit, debug, seed));
 }

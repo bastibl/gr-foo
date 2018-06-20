@@ -17,7 +17,7 @@
 		<name>Period (ms)</name>
 		<key>interval</key>
 		<value>1000</value>
-		<type>real</type>
+		<type>int</type>
 	</param>
 	<param>
 		<name>Quit</name>
