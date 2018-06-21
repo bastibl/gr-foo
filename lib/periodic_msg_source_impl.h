@@ -31,22 +31,22 @@ namespace foo {
 			bool d_debug;
 			bool d_quit;
 			bool d_finished;
-			float d_interval;
+			long d_interval;
 			pmt::pmt_t d_msg;
 			boost::thread *d_thread;
 			gr::thread::mutex d_mutex;
 
 		public:
 			periodic_msg_source_impl(pmt::pmt_t msg,
-					float interval, int num_msg,
+					long interval, int num_msg,
 					bool quit, bool debug);
 			virtual ~periodic_msg_source_impl();
 
 			void set_nmsg(int nmsg);
 			int get_nmsg();
 
-			void set_delay(float delay);
-			float get_delay();
+			void set_delay(long delay);
+			long get_delay();
 
 			void start_tx();
 			void stop_tx();

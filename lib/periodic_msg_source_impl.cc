@@ -25,7 +25,7 @@ using namespace gr::foo;
 #define dout d_debug && std::cout
 
 periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
-			float interval, int num_msg, bool quit, bool debug) :
+			long interval, int num_msg, bool quit, bool debug) :
 		block("periodic_msg_source",
 				gr::io_signature::make(0, 0, 0),
 				gr::io_signature::make(0, 0, 0)),
@@ -60,7 +60,7 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 	boost::this_thread::sleep(boost::posix_time::milliseconds(500));
 
 	while(1) {
-		float delay;
+		long delay;
 		{
 			gr::thread::scoped_lock(d_mutex);
 			if(d_finished || !d_nmsg_left) {
@@ -111,12 +111,12 @@ periodic_msg_source_impl::get_nmsg() {
 }
 
 void
-periodic_msg_source_impl::set_delay(float delay) {
+periodic_msg_source_impl::set_delay(long delay) {
 	gr::thread::scoped_lock(d_mutex);
 	d_interval = delay;
 }
 
-float
+long
 periodic_msg_source_impl::get_delay() {
 	gr::thread::scoped_lock(d_mutex);
 	return d_interval;
@@ -148,6 +148,6 @@ periodic_msg_source_impl::is_running() {
 }
 
 periodic_msg_source::sptr
-periodic_msg_source::make(pmt::pmt_t msg, float interval, int num_msg, bool quit, bool debug) {
+periodic_msg_source::make(pmt::pmt_t msg, long interval, int num_msg, bool quit, bool debug) {
 	return gnuradio::get_initial_sptr(new periodic_msg_source_impl(msg, interval, num_msg, quit, debug));
 }
