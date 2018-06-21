@@ -29,14 +29,14 @@ class FOO_API random_periodic_msg_source : virtual public gr::block
 public:
 
 	typedef boost::shared_ptr<random_periodic_msg_source> sptr;
-	static sptr make(int msg_len, float interval, int num_msg = 1,
+	static sptr make(int msg_len, long interval, int num_msg = 1,
 			bool quit = true, bool debug = false, int seed = 0);
 
 	virtual void set_nmsg(int nmsg) = 0;
 	virtual int get_nmsg() = 0;
 
-	virtual void set_delay(float delay) = 0;
-	virtual float get_delay() = 0;
+	virtual void set_delay(long delay) = 0;
+	virtual long get_delay() = 0;
 
 	virtual void start_tx() = 0;
 	virtual void stop_tx() = 0;
