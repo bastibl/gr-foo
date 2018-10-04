@@ -102,11 +102,6 @@ if(NOT GNURADIO_RUNTIME_FOUND)
     message(FATAL_ERROR "GnuRadio Runtime required to compile foo")
 endif()
 
-find_package(CppUnit)
-if(NOT CPPUNIT_FOUND)
-    message(FATAL_ERROR "CppUnit required to compile foo")
-endif()
-
 find_package(SWIG)
 if(NOT SWIG_FOUND)
     message(FATAL_ERROR "SWIG required to compile gr-foo")
@@ -138,13 +133,11 @@ endif(APPLE)
 include_directories(
     ${CMAKE_SOURCE_DIR}/include
     ${Boost_INCLUDE_DIRS}
-    ${CPPUNIT_INCLUDE_DIRS}
     ${GNURADIO_RUNTIME_INCLUDE_DIRS}
 )
 
 link_directories(
     ${Boost_LIBRARY_DIRS}
-    ${CPPUNIT_LIBRARY_DIRS}
     ${GNURADIO_RUNTIME_LIBRARY_DIRS}
 )
 
