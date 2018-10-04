@@ -76,6 +76,16 @@ if(NOT Boost_FOUND)
 endif()
 
 ########################################################################
+# Find gnuradio build dependencies
+########################################################################
+set(GR_REQUIRED_COMPONENTS RUNTIME PMT BLOCKS FILTER ANALOG)
+
+find_package(Gnuradio)
+if(NOT GNURADIO_RUNTIME_FOUND)
+    message(FATAL_ERROR "GnuRadio Runtime required to compile foo")
+endif()
+
+########################################################################
 # Install directories
 ########################################################################
 include(GrPlatform) #define LIB_SUFFIX
@@ -91,21 +101,6 @@ set(GR_PKG_CONF_DIR     ${GR_CONF_DIR}/${CMAKE_PROJECT_NAME}/conf.d)
 set(GR_LIBEXEC_DIR      libexec)
 set(GR_PKG_LIBEXEC_DIR  ${GR_LIBEXEC_DIR}/${CMAKE_PROJECT_NAME})
 set(GRC_BLOCKS_DIR      ${GR_PKG_DATA_DIR}/grc/blocks)
-
-########################################################################
-# Find gnuradio build dependencies
-########################################################################
-set(GR_REQUIRED_COMPONENTS RUNTIME PMT BLOCKS FILTER ANALOG)
-
-find_package(Gnuradio)
-if(NOT GNURADIO_RUNTIME_FOUND)
-    message(FATAL_ERROR "GnuRadio Runtime required to compile foo")
-endif()
-
-find_package(SWIG)
-if(NOT SWIG_FOUND)
-    message(FATAL_ERROR "SWIG required to compile gr-foo")
-endif()
 
 ########################################################################
 # On Apple only, set install name and use rpath correctly, if not already set
