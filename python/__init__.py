@@ -16,8 +16,21 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #
 
+# The presence of this file turns this directory into a Python package
+
+'''
+This is the GNU Radio FOO module. Place your Python package
+description here (python/__init__.py).
+'''
+from __future__ import unicode_literals
+
 # import swig generated symbols into the foo namespace
-from .foo_swig import *
+try:
+    # this might fail if the module is python-only
+    from .foo_swig import *
+except ImportError:
+    pass
+
 from .selector import *
 
 # import any pure python here
