@@ -117,20 +117,6 @@ if(APPLE)
 endif(APPLE)
 
 ########################################################################
-# Find gnuradio build dependencies
-########################################################################
-find_package(Doxygen)
-
-########################################################################
-# Setup doxygen option
-########################################################################
-if(DOXYGEN_FOUND)
-	option(ENABLE_DOXYGEN "Build docs using Doxygen" ON)
-else(DOXYGEN_FOUND)
-	option(ENABLE_DOXYGEN "Build docs using Doxygen" OFF)
-endif(DOXYGEN_FOUND)
-
-########################################################################
 # Create uninstall target
 ########################################################################
 configure_file(
