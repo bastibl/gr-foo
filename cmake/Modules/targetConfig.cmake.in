@@ -1,6 +1,6 @@
-# Copyright 2011 Free Software Foundation, Inc.
+# Copyright 2018 Free Software Foundation, Inc.
 #
-# This file is part of gr-foo
+# This file is part of GNU Radio
 #
 # GNU Radio is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,17 +17,10 @@
 # the Free Software Foundation, Inc., 51 Franklin Street,
 # Boston, MA 02110-1301, USA.
 
-install(FILES
-	foo_burst_tagger.block.yml
-	foo_packet_pad2.block.yml
-	foo_random_periodic_msg_source.block.yml
-	foo_valve.block.yml
-	foo_channel_model.block.yml
-	foo_packet_pad.block.yml
-	foo_rtt_measure.block.yml
-	foo_wireshark_connector.block.yml
-	foo_packet_dropper.block.yml
-	foo_periodic_msg_source.block.yml
-	foo_selector.block.yml
-	DESTINATION share/gnuradio/grc/blocks
-)
+include(CMakeFindDependencyMacro)
+
+set(target_deps "@TARGET_DEPENDENCIES@")
+foreach(dep IN LISTS target_deps)
+    find_dependency(${dep})
+endforeach()
+include("${CMAKE_CURRENT_LIST_DIR}/@TARGET@Targets.cmake")
