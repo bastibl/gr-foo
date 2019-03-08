@@ -50,7 +50,13 @@ if(NOT foo_sources)
 endif(NOT foo_sources)
 
 add_library(gnuradio-foo SHARED ${foo_sources})
-target_link_libraries(gnuradio-foo gnuradio::gnuradio-runtime ${Boost_LIBRARIES} ${UHD_LIBRARIES})
+target_link_libraries(gnuradio-foo
+  gnuradio::gnuradio-runtime
+  gnuradio::gnuradio-pmt
+  gnuradio::gnuradio-blocks
+  gnuradio::gnuradio-filter
+  gnuradio::gnuradio-analog
+  ${UHD_LIBRARIES})
 target_include_directories(gnuradio-foo
     PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/../include>
     PUBLIC $<INSTALL_INTERFACE:include>

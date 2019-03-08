@@ -72,8 +72,7 @@ endif()
 ########################################################################
 # Install directories
 ########################################################################
-set(GR_REQUIRED_COMPONENTS RUNTIME PMT BLOCKS FILTER ANALOG)
-find_package(Gnuradio "3.8" REQUIRED)
+find_package(Gnuradio "3.8" REQUIRED COMPONENTS blocks analog filter fft)
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX
@@ -136,14 +135,17 @@ add_subdirectory(include/foo)
 add_subdirectory(lib)
 add_subdirectory(swig)
 add_subdirectory(python)
-if(ENABLE_GRC)
-    add_subdirectory(grc)
-endif(ENABLE_GRC)
+add_subdirectory(grc)
 
 ########################################################################
 # Install cmake search helper for this library
 ########################################################################
 
-install(FILES cmake/Modules/fooConfig.cmake
+configure_file(
+    ${CMAKE_SOURCE_DIR}/cmake/Modules/fooConfig.cmake.in
+    ${CMAKE_CURRENT_BINARY_DIR}/fooConfig.cmake
+@ONLY)
+
+install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fooConfig.cmake
     DESTINATION ${CMAKE_MODULES_DIR}/foo
 )
