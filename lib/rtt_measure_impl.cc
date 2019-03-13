@@ -83,7 +83,7 @@ rtt_measure_impl::general_work(int noutput, gr_vector_int& ninput_items,
 boost::posix_time::ptime
 rtt_measure_impl::start_time()
 {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	return d_start_time;
 }
 

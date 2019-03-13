@@ -49,7 +49,7 @@ random_periodic_msg_source_impl::random_periodic_msg_source_impl(int msg_len,
 }
 
 random_periodic_msg_source_impl::~random_periodic_msg_source_impl() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	d_finished = true;
 	d_thread->interrupt();
 	d_thread->join();
@@ -65,7 +65,7 @@ random_periodic_msg_source_impl::run(random_periodic_msg_source_impl *instance) 
 	while(1) {
 		long delay;
 		{
-			gr::thread::scoped_lock(d_mutex);
+			gr::thread::scoped_lock d_mutex;
 			if(d_finished || !d_nmsg_left) {
 				d_finished = true;
 				if(d_quit) {
@@ -104,32 +104,32 @@ random_periodic_msg_source_impl::generate_msg() {
 }
 void
 random_periodic_msg_source_impl::set_nmsg(int nmsg) {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	d_nmsg_total = nmsg;
 }
 
 int
 random_periodic_msg_source_impl::get_nmsg() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	return d_nmsg_total;
 }
 
 void
 random_periodic_msg_source_impl::set_delay(long delay) {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	d_interval = delay;
 }
 
 long
 random_periodic_msg_source_impl::get_delay() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	return d_interval;
 }
 
 
 void
 random_periodic_msg_source_impl::start_tx() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 
 	if(is_running()) return;
 

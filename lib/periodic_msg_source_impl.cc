@@ -43,7 +43,7 @@ periodic_msg_source_impl::periodic_msg_source_impl(pmt::pmt_t msg,
 }
 
 periodic_msg_source_impl::~periodic_msg_source_impl() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 
 	d_finished = true;
 	d_thread->interrupt();
@@ -60,7 +60,7 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 	while(1) {
 		long delay;
 		{
-			gr::thread::scoped_lock(d_mutex);
+			gr::thread::scoped_lock d_mutex;
 			if(d_finished || !d_nmsg_left) {
 				d_finished = true;
 				if(d_quit) {
@@ -86,32 +86,32 @@ periodic_msg_source_impl::run(periodic_msg_source_impl *instance) {
 
 void
 periodic_msg_source_impl::set_nmsg(int nmsg) {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	d_nmsg_total = nmsg;
 }
 
 int
 periodic_msg_source_impl::get_nmsg() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	return d_nmsg_total;
 }
 
 void
 periodic_msg_source_impl::set_delay(long delay) {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	d_interval = delay;
 }
 
 long
 periodic_msg_source_impl::get_delay() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 	return d_interval;
 }
 
 
 void
 periodic_msg_source_impl::start_tx() {
-	gr::thread::scoped_lock(d_mutex);
+	gr::thread::scoped_lock d_mutex;
 
 	if(is_running()) return;
 
