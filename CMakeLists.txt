@@ -128,7 +128,9 @@ add_subdirectory(include/foo)
 add_subdirectory(lib)
 add_subdirectory(swig)
 add_subdirectory(python)
-add_subdirectory(grc)
+if(ENABLE_GRC)
+    add_subdirectory(grc)
+endif()
 
 ########################################################################
 # Install cmake search helper for this library
