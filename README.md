@@ -85,10 +85,6 @@ final PMT_EOF message to indicate that it is done.
 I used this block for automated performance tests with no-GUI flow graphs.
 
 
-### Dependencies
-
-GNU Radio v3.7
-
 
 ### Installation
 
@@ -102,4 +98,3 @@ make
 sudo make install
 sudo ldconfig
 ``` 
-
