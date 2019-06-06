@@ -23,11 +23,9 @@
 include(GrPlatform) #define LIB_SUFFIX
 
 include_directories(
-    ${Boost_INCLUDE_DIR}
     ${UHD_INCLUDE_DIRS}
 )
 link_directories(
-    ${Boost_LIBRARY_DIRS}
     ${UHD_LIBRARY_DIRS}
 )
 

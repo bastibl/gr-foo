@@ -31,7 +31,6 @@ try:
 except ImportError:
     pass
 
-from .selector import *
-
 # import any pure python here
+from .selector import *
 #

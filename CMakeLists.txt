@@ -1,4 +1,4 @@
-# Copyright 2011,2012 Free Software Foundation, Inc.
+# Copyright 2011,2012,2014,2016,2018 Free Software Foundation, Inc.
 #
 # This file is part of gr-foo
 #
@@ -24,20 +24,20 @@ cmake_minimum_required(VERSION 3.8)
 project(gr-foo CXX C)
 enable_testing()
 
-#install to PyBOMBS target prefix if defined
+# Install to PyBOMBS target prefix if defined
 if(DEFINED ENV{PYBOMBS_PREFIX})
     set(CMAKE_INSTALL_PREFIX $ENV{PYBOMBS_PREFIX})
     message(STATUS "PyBOMBS installed GNU Radio. Setting CMAKE_INSTALL_PREFIX to $ENV{PYBOMBS_PREFIX}")
 endif()
 
-#select the release build type by default to get optimization flags
+# Select the release build type by default to get optimization flags
 if(NOT CMAKE_BUILD_TYPE)
    set(CMAKE_BUILD_TYPE "Release")
    message(STATUS "Build type not specified: defaulting to release.")
 endif(NOT CMAKE_BUILD_TYPE)
 set(CMAKE_BUILD_TYPE ${CMAKE_BUILD_TYPE} CACHE STRING "")
 
-#make sure our local CMake Modules path comes first
+# Make sure our local CMake Modules path comes first
 list(INSERT CMAKE_MODULE_PATH 0 ${CMAKE_SOURCE_DIR}/cmake/Modules)
 
 # Set the version information here
@@ -48,6 +48,9 @@ set(VERSION_INFO_MAINT_VERSION 0)
 
 cmake_policy(SET CMP0011 NEW)
 
+# Enable generation of compile_commands.json for code completion engines
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 ########################################################################
 # Compiler specific setup
 ########################################################################
@@ -57,6 +60,26 @@ if((CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR
     #http://gcc.gnu.org/wiki/Visibility
     add_definitions(-fvisibility=hidden)
 endif()
+
+IF(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    SET(CMAKE_CXX_STANDARD 11)
+ELSEIF(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+    SET(CMAKE_CXX_STANDARD 11)
+ELSEIF(CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
+    SET(CMAKE_CXX_STANDARD 11)
+ELSE()
+    message(WARNING "C++ standard could not be set because compiler is not GNU, Clang or MSVC.")
+ENDIF()
+
+IF(CMAKE_C_COMPILER_ID STREQUAL "GNU")
+    SET(CMAKE_C_STANDARD 11)
+ELSEIF(CMAKE_C_COMPILER_ID MATCHES "Clang")
+    SET(CMAKE_C_STANDARD 11)
+ELSEIF(CMAKE_C_COMPILER_ID STREQUAL "MSVC")
+    SET(CMAKE_C_STANDARD 11)
+ELSE()
+    message(WARNING "C standard could not be set because compiler is not GNU, Clang or MSVC.")
+ENDIF()
 
 find_package(UHD)
 if(NOT UHD_FOUND)
@@ -128,19 +151,12 @@ add_subdirectory(include/foo)
 add_subdirectory(lib)
 add_subdirectory(swig)
 add_subdirectory(python)
-if(ENABLE_GRC)
-    add_subdirectory(grc)
-endif()
+add_subdirectory(grc)
 
 ########################################################################
 # Install cmake search helper for this library
 ########################################################################
 
-configure_file(
-    ${CMAKE_SOURCE_DIR}/cmake/Modules/fooConfig.cmake.in
-    ${CMAKE_CURRENT_BINARY_DIR}/fooConfig.cmake
-@ONLY)
-
-install(FILES ${CMAKE_CURRENT_BINARY_DIR}/fooConfig.cmake
+install(FILES cmake/Modules/fooConfig.cmake
     DESTINATION ${CMAKE_MODULES_DIR}/foo
 )
