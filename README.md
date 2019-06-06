@@ -20,8 +20,11 @@ project. For sample applications see:
 
 ### Development
 
-Like GNU Radio, this module uses *master* and *next* branches for development, which are supposed to be used with the corresponding GNU Radio branches.
-I recommend staying up-to-date by using the *next* branch.
+Like GNU Radio, this module uses *master* and *maint* branches for development.
+These branches are supposed to be used with the corresponding GNU Radio
+branches. This means: the *maint-3.7* branch is compatible with GNU Radio 3.7,
+*maint-3.8* is compatible with GNU Radio 3.8, and *master* is compatible with
+GNU Radio master, which tracks the development towards GNU Radio 3.9.
 
 
 
