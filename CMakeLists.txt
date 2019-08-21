@@ -95,7 +95,7 @@ endif()
 ########################################################################
 # Install directories
 ########################################################################
-find_package(Gnuradio "3.8" REQUIRED COMPONENTS blocks analog filter fft)
+find_package(Gnuradio "3.9" REQUIRED COMPONENTS blocks analog filter fft)
 include(GrVersion)
 
 include(GrPlatform) #define LIB_SUFFIX
