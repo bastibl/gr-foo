@@ -29,5 +29,5 @@ install(FILES
 	foo_packet_dropper.block.yml
 	foo_periodic_msg_source.block.yml
 	foo_selector.block.yml
-	DESTINATION share/gnuradio/grc/blocks
+    foo_pad_tagged_stream.block.yml	DESTINATION share/gnuradio/grc/blocks
 )
