@@ -86,6 +86,17 @@ I used this block for automated performance tests with no-GUI flow graphs.
 
 
 
+### Pad Tagged Stream
+
+Pads an incoming tagged stream with 0s to the set buffer size.
+Padding is applied to the tail of the tagged stream.
+
+This is useful when transmitting packetized data by using a Pluto as SDR.
+The Pluto does currently not support a partial buffer flush triggered by an incoming tagged stream.
+Therefore this block pads incoming tagged stream to fill the Pluto buffer to enforce an immediate transmission.
+
+
+
 ### Installation
 
 ```
