@@ -31,5 +31,5 @@ install(FILES
 	random_periodic_msg_source.h
 	rtt_measure.h
 	wireshark_connector.h
-	DESTINATION include/foo
+    pad_tagged_stream.h	DESTINATION include/foo
 )

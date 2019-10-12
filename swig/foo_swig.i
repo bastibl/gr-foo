@@ -17,6 +17,7 @@
 #include "foo/random_periodic_msg_source.h"
 #include "foo/rtt_measure.h"
 #include "foo/wireshark_connector.h"
+#include "foo/pad_tagged_stream.h"
 %}
 
 
@@ -39,3 +40,5 @@ GR_SWIG_BLOCK_MAGIC2(foo, periodic_msg_source);
 GR_SWIG_BLOCK_MAGIC2(foo, random_periodic_msg_source);
 GR_SWIG_BLOCK_MAGIC2(foo, rtt_measure);
 GR_SWIG_BLOCK_MAGIC2(foo, wireshark_connector);
+%include "foo/pad_tagged_stream.h"
+GR_SWIG_BLOCK_MAGIC2(foo, pad_tagged_stream);
