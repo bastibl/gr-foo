@@ -39,6 +39,7 @@ list(APPEND foo_sources
     random_periodic_msg_source_impl.cc
     rtt_measure_impl.cc
     wireshark_connector_impl.cc
+    pad_tagged_stream_impl.cc
 )
 
 set(foo_sources "${foo_sources}" PARENT_SCOPE)
