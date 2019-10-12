@@ -47,6 +47,7 @@ namespace gr {
         d_buf_len(buffer_size),
         d_len_tag(len_tag_name)
     {
+        set_min_output_buffer(buffer_size*2);
         set_tag_propagation_policy(TPP_DONT);
     }
 
