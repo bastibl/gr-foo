@@ -15,6 +15,7 @@ parameters:
 - id: buffer_size
   label: Buffer Size
   dtype: int
+  default: '0x8000'
 - id: len_tag_name
   label: Length Tag Key
   dtype: string
