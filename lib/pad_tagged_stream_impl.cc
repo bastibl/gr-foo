@@ -75,11 +75,19 @@ namespace gr {
 
       noutput_items = d_buf_len;
 
+
       memcpy((void*)out, (const void*)in, ninput_items[0]);
-      if (ninput_items[0] < noutput_items) memset((void*) (out+ninput_items[0]), 0, noutput_items-ninput_items[0]);
+
+      if (ninput_items[0] <= noutput_items)
+      {
+        memset((void*) (out+ninput_items[0]), 0, noutput_items-ninput_items[0]);
+      }
+      else // ninput_items[0] > noutput_items
+      {
+        std::cout << "PadTaggedStream: Warning - Tagged stream is longer than buffer" << std::endl;
+      }
 
       return noutput_items;
-
     }
 
   } /* namespace foo */
