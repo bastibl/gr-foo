@@ -76,7 +76,7 @@ namespace gr {
       noutput_items = d_buf_len;
 
 
-      memcpy((void*)out, (const void*)in, ninput_items[0]);
+      memcpy((void*)out, (const void*)in, std::min(d_buf_len, ninput_items[0]));
 
       if (ninput_items[0] <= noutput_items)
       {
