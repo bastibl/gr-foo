@@ -76,11 +76,11 @@ namespace gr {
       noutput_items = d_buf_len;
 
 
-      memcpy((void*)out, (const void*)in, std::min(d_buf_len, ninput_items[0]));
+      memcpy(out, in, sizeof(gr_complex) * std::min(d_buf_len, ninput_items[0]));
 
       if (ninput_items[0] <= noutput_items)
       {
-        memset((void*) (out+ninput_items[0]), 0, noutput_items-ninput_items[0]);
+        memset((out+ninput_items[0]), 0, sizeof(gr_complex) * noutput_items-ninput_items[0]);
       }
       else // ninput_items[0] > noutput_items
       {
