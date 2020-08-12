@@ -32,7 +32,7 @@ packet_dropper_impl::packet_dropper_impl(double drop_rate, unsigned long seed)
 		throw std::out_of_range("drop rate has to be < 1");
 	}
 	message_port_register_in(pmt::mp("in"));
-	set_msg_handler(pmt::mp("in"), boost::bind(&packet_dropper_impl::msg_handler, this, _1));
+	set_msg_handler(pmt::mp("in"), boost::bind(&packet_dropper_impl::msg_handler, this, boost::placeholders::_1));
 	message_port_register_out(pmt::mp("out"));
 }
 
