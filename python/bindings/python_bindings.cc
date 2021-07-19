@@ -21,8 +21,17 @@ namespace py = pybind11;
 // Please do not delete
 /**************************************/
 // BINDING_FUNCTION_PROTOTYPES(
+void bind_burst_tagger(py::module& m);
+void bind_channel_model(py::module& m);
+void bind_packet_dropper(py::module& m);
+void bind_packet_pad2(py::module& m);
+void bind_packet_pad(py::module& m);
+void bind_pad_tagged_stream(py::module& m);
+void bind_periodic_msg_source(py::module& m);
+void bind_random_periodic_msg_source(py::module& m);
+void bind_rtt_measure(py::module& m);
+void bind_wireshark_connector(py::module& m);
 // ) END BINDING_FUNCTION_PROTOTYPES
-
 
 // We need this hack because import_array() returns NULL
 // for newer Python versions.
@@ -49,5 +58,15 @@ PYBIND11_MODULE(foo_python, m)
     // Please do not delete
     /**************************************/
     // BINDING_FUNCTION_CALLS(
+    bind_burst_tagger(m);
+    bind_channel_model(m);
+    bind_packet_dropper(m);
+    bind_packet_pad2(m);
+    bind_packet_pad(m);
+    bind_pad_tagged_stream(m);
+    bind_periodic_msg_source(m);
+    bind_random_periodic_msg_source(m);
+    bind_rtt_measure(m);
+    bind_wireshark_connector(m);
     // ) END BINDING_FUNCTION_CALLS
 }
