@@ -27,7 +27,7 @@ class FOO_API packet_pad2 : virtual public gr::tagged_stream_block
 {
 public:
 
-	typedef boost::shared_ptr<packet_pad2> sptr;
+	typedef std::shared_ptr<packet_pad2> sptr;
 	static sptr make(bool debug = false, bool delay=false, double delay_sec=0.01, unsigned int pad_front = 0, unsigned int pad_tail = 0);
 
 };

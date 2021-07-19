@@ -1,2 +1,5 @@
-build/
-tags
+*~
+*.pyc
+*.pyo
+build*/
+examples/grc/*.py

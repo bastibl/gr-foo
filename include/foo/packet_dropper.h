@@ -26,7 +26,7 @@ namespace foo {
 	class FOO_API packet_dropper : virtual public gr::block
 	{
 	public:
-		typedef boost::shared_ptr<packet_dropper> sptr;
+		typedef std::shared_ptr<packet_dropper> sptr;
 		static sptr make(double drop_rate, unsigned long seed);
 	};
 }  // namespace foo

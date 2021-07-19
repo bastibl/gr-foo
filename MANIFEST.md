@@ -3,8 +3,7 @@ author:
   - Bastian Bloessl <bloessl@ccs-labs.org>
 copyright_owner:
   - Bastian Bloessl
-dependencies:
-  - gnuradio (>= 3.7.4)
+gr_supported_version: v3.7, v3.8, v3.9
 repo: https://github.com/bastibl/gr-foo.git
 tags:
   - foo

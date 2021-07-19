@@ -27,7 +27,7 @@ class FOO_API periodic_msg_source : virtual public gr::block
 {
 public:
 
-	typedef boost::shared_ptr<periodic_msg_source> sptr;
+	typedef std::shared_ptr<periodic_msg_source> sptr;
 	static sptr make(pmt::pmt_t msg, long interval, int num_msg = -1,
 			bool quit = true, bool debug = false);
 

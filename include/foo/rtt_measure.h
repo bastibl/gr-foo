@@ -27,7 +27,7 @@ namespace foo {
 	class FOO_API rtt_measure : virtual public gr::block
 	{
 	public:
-		typedef boost::shared_ptr<rtt_measure> sptr;
+		typedef std::shared_ptr<rtt_measure> sptr;
 		static sptr make(unsigned long interval);
 	};
 }  // namespace foo

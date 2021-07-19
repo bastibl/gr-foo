@@ -27,7 +27,7 @@ namespace foo {
 class FOO_API channel_model : virtual public hier_block2
 {
 public:
-    typedef boost::shared_ptr<channel_model> sptr;
+    typedef std::shared_ptr<channel_model> sptr;
 
     static sptr make(double noise_voltage = 0.0, double frequency_offset = 0.0,
             double epsilon = 1.0,

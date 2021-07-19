@@ -35,7 +35,7 @@ namespace gr {
     class FOO_API pad_tagged_stream : virtual public gr::tagged_stream_block
     {
      public:
-      typedef boost::shared_ptr<pad_tagged_stream> sptr;
+      typedef std::shared_ptr<pad_tagged_stream> sptr;
 
       /*!
        * \brief Return a shared_ptr to a new instance of foo::pad_tagged_stream.

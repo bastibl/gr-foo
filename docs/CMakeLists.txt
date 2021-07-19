@@ -7,28 +7,18 @@
 #
 
 ########################################################################
-# Include python install macros
+# Setup dependencies
 ########################################################################
-include(GrPython)
-if(NOT PYTHONINTERP_FOUND)
-    return()
-endif()
-
-add_subdirectory(bindings)
+find_package(Doxygen)
 
 ########################################################################
-# Install python sources
+# Begin conditional configuration
 ########################################################################
-GR_PYTHON_INSTALL(
-    FILES
-    __init__.py
-    selector.py
-    DESTINATION ${GR_PYTHON_DIR}/foo
-)
+if(ENABLE_DOXYGEN)
 
 ########################################################################
-# Handle the unit tests
+# Add subdirectories
 ########################################################################
-include(GrTest)
+add_subdirectory(doxygen)
 
-set(GR_TEST_TARGET_DEPS gnuradio-foo)
+endif(ENABLE_DOXYGEN)
