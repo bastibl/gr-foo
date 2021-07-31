@@ -93,13 +93,13 @@ random_periodic_msg_source_impl::run(random_periodic_msg_source_impl *instance) 
 // Generate a random message
 pmt::pmt_t
 random_periodic_msg_source_impl::generate_msg() {
-	uint8_t vec[d_msg_len];
+	std::vector<uint8_t> vec(d_msg_len);
 
 	for(int i = 0; i < d_msg_len; i++) {
 		vec[i] = d_randbytes();
 	}
 
-	pmt::pmt_t blob = pmt::make_blob(vec, d_msg_len);
+	pmt::pmt_t blob = pmt::make_blob(vec.data(), d_msg_len);
 	return pmt::cons(pmt::PMT_NIL, blob);
 }
 void
