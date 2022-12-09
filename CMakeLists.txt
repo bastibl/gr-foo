@@ -126,6 +126,14 @@ endif(APPLE)
 ########################################################################
 find_package(Doxygen)
 
+find_library(orc_LIBRARY NAMES orc-0.4)
+
+if(orc_LIBRARY)
+    message(STATUS "Found liborc: ${orc_LIBRARY}")
+else()
+    message(FATAL_ERROR "Could not find liborc")
+endif()
+
 ########################################################################
 # Setup doxygen option
 ########################################################################
