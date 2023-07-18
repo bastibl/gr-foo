@@ -19,9 +19,9 @@
 #include <gnuradio/io_signature.h>
 #include <gnuradio/block_detail.h>
 
+#include <chrono>
 #include <iostream>
 #include <iomanip>
-#include <sys/time.h>
 
 using namespace gr::foo;
 
@@ -55,8 +55,13 @@ void
 wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 
 	// get current time
-	struct timeval t;
-	gettimeofday(&t, NULL);
+	auto tp_now = std::chrono::system_clock::now();
+	auto tp_now_sec = std::chrono::floor<std::chrono::seconds>(tp_now);
+	auto duration_us = std::chrono::duration_cast<std::chrono::microseconds>(
+		tp_now - tp_now_sec
+	);
+	auto ts_sec = tp_now_sec.time_since_epoch().count();
+	auto ts_usec = duration_us.count();
 
 	const char *buf = reinterpret_cast<const char*>(pmt::blob_data(pmt::cdr(pdu)));
 	std::size_t len = pmt::blob_length(pmt::cdr(pdu));
@@ -78,8 +83,8 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 				len + sizeof(radiotap_hdr) + sizeof(pcap_hdr)));
 
 		pcap_hdr *hdr = reinterpret_cast<pcap_hdr*>(d_msg);
-		hdr->ts_sec   = t.tv_sec;
-		hdr->ts_usec  = t.tv_usec;
+		hdr->ts_sec   = ts_sec;
+		hdr->ts_usec  = ts_usec;
 		hdr->incl_len = len + sizeof(radiotap_hdr);
 		hdr->orig_len = len + sizeof(radiotap_hdr);
 		offset += sizeof(struct pcap_hdr);
@@ -132,8 +137,8 @@ wireshark_connector_impl::handle_pdu(pmt::pmt_t pdu) {
 				len + sizeof(pcap_hdr)));
 
 		pcap_hdr *hdr = reinterpret_cast<pcap_hdr*>(d_msg);
-		hdr->ts_sec   = t.tv_sec;
-		hdr->ts_usec  = t.tv_usec;
+		hdr->ts_sec   = ts_sec;
+		hdr->ts_usec  = ts_usec;
 		hdr->incl_len = len;
 		hdr->orig_len = len;
 		offset += sizeof(pcap_hdr);
@@ -204,7 +209,7 @@ wireshark_connector_impl::general_work(int noutput, gr_vector_int& ninput_items,
 	memcpy(out, d_msg + d_msg_offset, to_copy);
 
 	dout << "WIRESHARK: d_msg_offset: " <<  d_msg_offset <<
-		"   to_copy: " << to_copy << 
+		"   to_copy: " << to_copy <<
 		"   d_msg_len " << d_msg_len << std::endl;
 
 	d_msg_offset += to_copy;
