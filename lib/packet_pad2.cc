@@ -16,8 +16,8 @@
  */
 #include <foo/packet_pad2.h>
 
+#include <chrono>
 #include <gnuradio/io_signature.h>
-#include <sys/time.h>
 #ifdef FOO_UHD
 #include <uhd/types/time_spec.hpp>
 #endif
@@ -65,9 +65,12 @@ int work (int noutput_items, gr_vector_int& ninput_items,
 	#ifdef FOO_UHD
 	if(d_delay) {
 		static const pmt::pmt_t time_key = pmt::string_to_symbol("tx_time");
-		struct timeval t;
-		gettimeofday(&t, NULL);
-		uhd::time_spec_t now = uhd::time_spec_t(t.tv_sec + t.tv_usec / 1000000.0)
+		double t_now(
+			std::chrono::duration<double>(std::chrono::system_clock::now()
+				.time_since_epoch()
+			).count()
+		);
+		uhd::time_spec_t now = uhd::time_spec_t(t_now)
 			+ uhd::time_spec_t(d_delay_sec);
 
 		const pmt::pmt_t time_value = pmt::make_tuple(
