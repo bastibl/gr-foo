@@ -40,6 +40,7 @@ namespace foo {
 					gr_vector_void_star& output_items );
 	};
 
+	#pragma pack(push, 1)
 	struct pcap_file_hdr {
 		uint32_t magic_number;   /* magic number */
 		uint16_t version_major;  /* major version number */
@@ -48,15 +49,19 @@ namespace foo {
 		uint32_t sigfigs;        /* accuracy of timestamps */
 		uint32_t snaplen;        /* max length of captured packets, in octets */
 		uint32_t network;        /* data link type */
-	}__attribute__((packed));
+	};
+	#pragma pack(pop)
 
+	#pragma pack(push, 1)
 	struct pcap_hdr {
 		uint32_t ts_sec;         /* timestamp seconds */
 		uint32_t ts_usec;        /* timestamp microseconds */
 		uint32_t incl_len;       /* number of octets of packet saved in file */
 		uint32_t orig_len;       /* actual length of packet */
-	}__attribute__((packed));
+	};
+	#pragma pack(pop)
 
+	#pragma pack(push, 1)
 	struct radiotap_hdr {
 		uint16_t version;
 		uint16_t hdr_length;
@@ -67,7 +72,8 @@ namespace foo {
 		uint8_t  signal;
 		uint8_t  noise;
 		uint8_t  antenna;
-	}__attribute__((packed));
+	};
+	#pragma pack(pop)
 
 }  // namespace foo
 }  // namespace gr
