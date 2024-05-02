@@ -1,0 +1,24 @@
+title: The FOO OOT Module
+version: 1.0
+brief: some utility blocks
+tags: # Tags are arbitrary, but look at CGRAN what other authors are using
+  - foo
+author:
+  - Bastian Bloessl <bloessl@ccs-labs.org>
+copyright_owner:
+  - Bastian Bloessl
+license: GPL-3.0-or-later
+gr_supported_version:
+  - 3.7
+  - 3.8
+  - 3.9
+  - 3.10
+repo: https://github.com/bastibl/gr-foo.git
+website: https://github.com/bastibl/gr-foo
+icon: http://www.ccs-labs.org/projects/wime/wime.png
+description: |-
+  This is a collection of custom blocks that are not directly associated with a project. For sample applications see:
+
+  https://github.com/bastibl/gr-ieee802-11
+  https://github.com/bastibl/gr-ieee802-15-4
+file_format: 1
