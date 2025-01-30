@@ -35,7 +35,6 @@ list(APPEND foo_python_files
     channel_model_python.cc
     packet_dropper_python.cc
     packet_pad2_python.cc
-    packet_pad_python.cc
     pad_tagged_stream_python.cc
     periodic_msg_source_python.cc
     random_periodic_msg_source_python.cc

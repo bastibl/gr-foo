@@ -23,7 +23,6 @@ list(APPEND foo_sources
     channel_model_impl.cc
     packet_dropper_impl.cc
     packet_pad2.cc
-    packet_pad_impl.cc
     periodic_msg_source_impl.cc
     random_periodic_msg_source_impl.cc
     rtt_measure_impl.cc

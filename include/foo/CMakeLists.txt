@@ -14,7 +14,6 @@ install(FILES
     burst_tagger.h
     channel_model.h
     packet_dropper.h
-    packet_pad.h
     packet_pad2.h
     periodic_msg_source.h
     random_periodic_msg_source.h

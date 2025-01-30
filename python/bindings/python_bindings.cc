@@ -25,7 +25,6 @@ void bind_burst_tagger(py::module& m);
 void bind_channel_model(py::module& m);
 void bind_packet_dropper(py::module& m);
 void bind_packet_pad2(py::module& m);
-void bind_packet_pad(py::module& m);
 void bind_pad_tagged_stream(py::module& m);
 void bind_periodic_msg_source(py::module& m);
 void bind_random_periodic_msg_source(py::module& m);
@@ -62,7 +61,6 @@ PYBIND11_MODULE(foo_python, m)
     bind_channel_model(m);
     bind_packet_dropper(m);
     bind_packet_pad2(m);
-    bind_packet_pad(m);
     bind_pad_tagged_stream(m);
     bind_periodic_msg_source(m);
     bind_random_periodic_msg_source(m);

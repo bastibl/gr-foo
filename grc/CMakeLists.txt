@@ -12,7 +12,6 @@ install(FILES
     foo_random_periodic_msg_source.block.yml
     foo_valve.block.yml
     foo_channel_model.block.yml
-    foo_packet_pad.block.yml
     foo_rtt_measure.block.yml
     foo_wireshark_connector.block.yml
     foo_packet_dropper.block.yml
