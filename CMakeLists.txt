@@ -169,3 +169,7 @@ endif(ENABLE_PYTHON)
 install(FILES cmake/Modules/fooConfig.cmake
     DESTINATION ${CMAKE_MODULES_DIR}/foo
 )
+
+install(FILES MANIFEST.yml
+    RENAME MANIFEST-${VERSION_MAJOR}.${VERSION_API}.${VERSION_ABI}${VERSION_PATCH}.yml
+    DESTINATION share/gnuradio/manifests/foo)
